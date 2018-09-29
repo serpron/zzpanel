@@ -1,0 +1,14 @@
+<application>
+  <component name="ParameterNameHintsSettings">
+    <blacklists>
+      <blacklist language="TypeScript" />
+      <blacklist language="Java">
+        <added pattern="javax.servlet.ServletRequest.setAttribute(s,o)" />
+        <added pattern="javax.servlet.ServletRequest.getRequestDispatcher(s)" />
+      </blacklist>
+      <blacklist language="Groovy" />
+      <blacklist language="Kotlin" />
+    </blacklists>
+    <option id="java.method.name.contains.parameter.name" value="false" />
+  </component>
+</application>
