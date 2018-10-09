@@ -10,19 +10,47 @@
        http://www.springframework.org/schema/mvc
        http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
     <!--注解驱动-->
-    <mvc:annotation-driven/>
+    <mvc:annotation-driven>
+        <mvc:message-converters>
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <property name="supportedMediaTypes">
+                    <list>
+                        <value>application/json;charset=utf-8</value>
+                    </list>
+                </property>
+            </bean>
+            <bean class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
+                <property name="supportedMediaTypes">
+                    <list>
+                        <value>text/html;charset=utf-8</value>
+                        <value>application/json;charset=utf-8</value>
+                    </list>
+                </property>
+                <property name="features">
+                    <list>
+                        <!-- 输出Date的日期转换器 -->
+                        <value>WriteDateUseDateFormat</value>
+                    </list>
+                </property>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
     <!--自动扫描-->
     <context:component-scan base-package="zz.web"/>
 
     <!--jsp视图解析-->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" id="viewResolver1">
-        <property name="prefix" value="/page/"/>
+        <property name="prefix" value="/views/"/>
         <property name="suffix" value=".jsp"/>
     </bean>
 
     <!--静态资源映射-->
-    <mvc:resources mapping="/images/" location="/static/images/**"/>
-    <mvc:resources mapping="/css/" location="/static/css/**"/>
-    <mvc:resources mapping="/js/" location="/static/js/**"/>
-
+    <mvc:resources mapping="/static/css/**" location="/static/css/"/>
+    <mvc:resources mapping="/static/font/**" location="/static/font/"/>
+    <mvc:resources mapping="/static/images/**" location="/static/images/"/>
+    <mvc:resources mapping="/static/lay/kit_modules/**" location="/static/lay/kit_modules/"/>
+    <mvc:resources mapping="/static/lay/modules/**" location="/static/lay/modules/"/>
+    <mvc:resources mapping="/static/**" location="/static/"/>
+    <mvc:resources mapping="/views/**" location="/views/"/>
 </beans>
