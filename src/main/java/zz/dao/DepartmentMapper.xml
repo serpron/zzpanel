@@ -5,20 +5,17 @@
         select count(*) from sys_department
         <where>
             <if test="example!=null">
-                <if test="example.name!=null">
+                <if test="example.name!=null and example.name.trim().length()>0">
                     and name = #{example.name}
                 </if>
                 <if test="example.parent_id!=null">
                     and parent_id = #{example.parent_id}
                 </if>
-                <if test="example.parent_ids!=null">
-                    and parent_ids = #{example.parent_ids}
+                <if test="example.parent_ids!=null and example.parent_ids.trim().length()>0">
+                    and parent_ids like concat('%',#{example.parent_ids},'%')
                 </if>
-                <if test="example.remark_code!=null">
-                    and remark_code = #{example.remark_code}
-                </if>
-                <if test="example.description!=null">
-                    and description = #{example.description}
+                <if test="example.description!=null and example.description.trim().length()>0">
+                    and description like concat('%',#{example.description},'%')
                 </if>
             </if>
         </where>
@@ -27,20 +24,17 @@
         select * from sys_department
         <where>
             <if test="example!=null">
-                <if test="example.name!=null">
+                <if test="example.name!=null and example.name.trim().length()>0">
                     and name = #{example.name}
                 </if>
                 <if test="example.parent_id!=null">
                     and parent_id = #{example.parent_id}
                 </if>
-                <if test="example.parent_ids!=null">
-                    and parent_ids = #{example.parent_ids}
+                <if test="example.parent_ids!=null and example.parent_ids.trim().length()>0">
+                    and parent_ids like concat(#{example.parent_ids},'%')
                 </if>
-                <if test="example.remark_code!=null">
-                    and remark_code = #{example.remark_code}
-                </if>
-                <if test="example.description!=null">
-                    and description = #{example.description}
+                <if test="example.description!=null and example.description.trim().length()>0">
+                    and description like concat('%',#{example.description},'%')
                 </if>
             </if>
         </where>
@@ -50,20 +44,17 @@
         select * from sys_department
         <where>
             <if test="example!=null">
-                <if test="example.name!=null">
+                <if test="example.name!=null and example.name.trim().length()>0">
                     and name = #{example.name}
                 </if>
                 <if test="example.parent_id!=null">
                     and parent_id = #{example.parent_id}
                 </if>
-                <if test="example.parent_ids!=null">
-                    and parent_ids = #{example.parent_ids}
+                <if test="example.parent_ids!=null and example.parent_ids.trim().length()>0">
+                    and parent_ids like concat('%',#{example.parent_ids},'%')
                 </if>
-                <if test="example.remark_code!=null">
-                    and remark_code = #{example.remark_code}
-                </if>
-                <if test="example.description!=null">
-                    and description = #{example.description}
+                <if test="example.description!=null and example.description.trim().length()>0">
+                    and description like concat('%',#{example.description},'%')
                 </if>
             </if>
         </where>
@@ -78,7 +69,6 @@
           <if test="name!=null">name=#{name},</if>
           <if test="parent_id!=null">parent_id=#{parent_id},</if>
           <if test="parent_ids!=null">parent_ids=#{parent_ids},</if>
-          <if test="remark_code!=null">remark_code=#{remark_code},</if>
           <if test="description!=null">description=#{description},</if>
         </set>
         where id = #{id}

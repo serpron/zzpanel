@@ -17,6 +17,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+@Transactional(readOnly = true)
 @Service("userService")
 public class UserServiceImpl implements UserService {
 
@@ -63,7 +64,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional(propagation = Propagation.REQUIRED,readOnly = false)
     public User add(User user) {
         String salt = generateSalt(user.getPass());  // 根据明文密码产生盐
         String pass = generateHex(user.getPass(),salt); // 结合明文密码与盐产生密文密码
@@ -76,7 +77,7 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional(propagation = Propagation.REQUIRED,readOnly = false)
     public User update(User user) {
         // 为用户重新生成盐和密码
         String salt = generateSalt(user.getPass());  // 根据明文密码产生盐
@@ -87,6 +88,7 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
+    @Transactional(propagation = Propagation.REQUIRED,readOnly = false)
     @Override
     public void delete(Integer id) {
         this.userMapper.delete(id);

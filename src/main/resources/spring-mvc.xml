@@ -63,6 +63,9 @@
         <property name="maxInMemorySize" value="40960" />
     </bean>
 
+    <!-- 全局异常处理 -->
+    <bean class="zz.util.GlobalExceptionHandler" id="exceptionHandler"/>
+
     <!--静态资源映射-->
     <mvc:resources mapping="/static/css/**" location="/static/css/"/>
     <mvc:resources mapping="/static/font/**" location="/static/font/"/>

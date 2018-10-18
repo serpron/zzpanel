@@ -5,7 +5,7 @@
         <div class="layui-card-header">表单</div>
         <div class="layui-card-body">
           <div id="data-head-bar">
-            <a href="#/users/add" class="layui-btn layui-btn-xs">新增</a>
+            <a href="#/departments/add" class="layui-btn layui-btn-xs">新增</a>
             <a href="javascript:;" id="search-btn" class="layui-btn layui-btn-xs layui-btn-primary"><i class="layui-icon layui-icon-search"></i></a>
           </div>
           <table id="data_tab" lay-filter="data_tab"></table>
@@ -27,19 +27,14 @@
         //第一个实例
         var dataTable = table.render({
             elem: '#data_tab'
-            ,url: '/users' //数据接口
+            ,url: '/departments' //数据接口
             ,page: true //开启分页
             ,cols: [[ //表头
                 {field: 'id', title: 'ID', width:80, sort: true, fixed: 'left'}
-                ,{field: 'account', title: '账号', width:120, sort: true, fixed: 'left'}
-                ,{field: 'name', title: '用户名', width:200, sort: true}
-                ,{field: 'sex', title: '性别', width:80, sort: true}
-                ,{field: 'phone', title: '电话', width:80, sort:true}
-                ,{field: 'email', title: '邮件', width: 120, sort:true}
-                ,{field: 'birthday', title: '生日', width: 200, sort: true}
-                ,{field: 'register_time', title: '注册时间', width: 200, sort: true}
-                ,{field: 'department_id', title: '部门', width: 80, sort: true}
-                ,{field: 'head', title: '头像'}
+                ,{field: 'name', title: '名称', width:120, sort: true, fixed: 'left'}
+                ,{field: 'parentId', title: '上级部门', width:200, sort: true}
+                ,{field: 'parentIds', title: '层次', width:80, sort: true}
+                ,{field: 'description', title: '描述'}
                 ,{field: 'operation', title:'操作', toolbar:'#data_bar',align:'center'}
             ]]
         });
@@ -61,7 +56,7 @@
                               obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
                               layer.close(index);
                           }else{
-                              layer.alert("删除失败:"+res.data,{icon:5});
+                              layer.msg("删除失败!",res.data);
                           }
                         }
                     });

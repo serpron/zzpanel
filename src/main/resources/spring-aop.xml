@@ -12,7 +12,7 @@
        http://www.springframework.org/schema/context/spring-context-4.0.xsd">
     <!--使用注解方式注入-->
     <conext:annotation-config/>
-    <!--自动扫描dao层业务层bean-->
+    <!--自动扫描业务层bean-->
     <context:component-scan base-package="zz.service"/>
     <!--自动扫描注解事务-->
     <aop:aspectj-autoproxy/>
