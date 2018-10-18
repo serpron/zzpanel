@@ -141,6 +141,36 @@
                     path: '/views/carousel',                       //路由地址
                     component: '/views/carousel.html', //模板组件地址
                     name: '轮播'                              //显示名称
+                },
+                {
+                    path: '/users',
+                    component: '/views/users/list.html',
+                    name: '用户列表'
+                },
+                {
+                    path: '/users/add',
+                    component: '/views/users/add.html',
+                    name: '添加用户'
+                },
+                {
+                    path: '/users/search',
+                    component: '/views/users/find.html',
+                    name: '查找用户'
+                },
+                {
+                    path: '/users/id',
+                    component: '/views/users/edit.html',
+                    name: '编辑用户'
+                },
+                {
+                    path: '/departments',
+                    component: '/departments',
+                    name: '部门列表'
+                },
+                {
+                    path: '/roles',
+                    component: '/roles',
+                    name: '角色列表'
                 }
             ]
         });
@@ -155,7 +185,14 @@
                         {id:23,title:'表单',path:'#/views/form',pid:2,open:false,children:[],icon:'&#xe63c;'},
                         {id:24,title:'按钮',path:'#/views/button',pid:2,open:false,children:[],icon:'&#xe609;'},
                         {id:25,title:'轮播',path:'#/views/carousel',pid:2,open:false,children:[],icon:'&#xe64a;'}
-                    ]}
+                    ]
+                },
+                {id:3,title:'系统设置',pid:0,open:true,icon:'&#xe656;',children:[
+                        {id:31,title:'用户管理',path:'#/users',pid:3,open:false,children:[],icon:'&#xe62d;'},
+                        {id:32,title:'部门管理',path:'#/departments',pid:3,open:false,children:[],icon:'&#xe62d;'},
+                        {id:33,title:'角色管理',path:'#/roles',pid:3,open:false,children:[],icon:'&#xe63c;'}
+                    ]
+                }
             ]
         });
 

@@ -57,7 +57,6 @@ layui.define(["utils", "jquery", "lodash", "nprogress", "layer"], function(e) {
         }
         void 0 === d && (d = l);
         var h = n.getRoute(e);
-
         function p() {
             NProgress.done(), c && s.close(c), i.isFunction(o) && o()
         }
@@ -65,7 +64,8 @@ layui.define(["utils", "jquery", "lodash", "nprogress", "layer"], function(e) {
             var e = r(".layui-body").height();
             r("iframe[data-id=" + v + "]").height(e - 3)
         }).resize(), p()) : i.tplLoader(h.component, function(e) {
-            d.html(e), p(), i.setUrlState(h.name, "#" + h.path)
+            // 这里先修改地址栏路径，然后渲染页面
+            i.setUrlState(h.name, "#" + h.path),d.html(e), p()
         }, function(e) {
             var i = ['<div class="layui-fluid">', '<div class="layui-row">', '<div class="layui-col-xs12">', '<div class="kit-not-router">', e, "</div>", "</div>", "</div>", "</div>"].join("");
             d.html(i), p()

@@ -62,9 +62,11 @@ layui.define(["lodash", "axios"], function(t) {
                     o = "读取模板出现异常，异常代码：" + n.status + "、 异常信息：" + n.statusText;
                 console.log(o), "function" == typeof r && r(o)
             });
+
             var u = setInterval(function() {
-                "" !== i && (clearInterval(u), e(i))
-            }, 50)
+                "" !== i && (clearInterval(u), e(i));
+            }, 50);
+
         },
         setUrlState: function(t, n) {
             history.pushState({}, t, n)

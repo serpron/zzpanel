@@ -116,7 +116,7 @@ layui.define(mods, function(e) {
         }
     };
     (new p).ready(function() {
-        console.log("Init successed.")
+        //console.log("Init successed.")
     }), e("admin", {})
 });
 //# sourceMappingURL=admin.js.map

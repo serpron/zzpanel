@@ -1,7 +1,83 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="zz.dao.UserMapper">
-    <select id="findAll" resultType="zz.entity.User">
-        select * from sys_user
+    <select id="findById" resultType="zz.entity.User" parameterType="int">
+        select * from sys_user where id = #{id}
     </select>
+    <select id="count" resultType="int" parameterType="zz.entity.User">
+        select count(*) from sys_user
+        <where>
+            <if test="example!=null">
+                <if test="example.account!=null and example.account.trim().length()>0">
+                    and account like concat('%',#{example.account},'%')
+                </if>
+                <if test="example.name!=null and example.name.trim().length()>0">
+                    and name like concat('%',#{example.name},'%')
+                </if>
+                <if test="example.phone!=null and example.phone.trim().length()>0">
+                    and phone like concat('%',#{example.phone},'%')
+                </if>
+                <if test="example.email!=null and example.email.trim().length()>0">
+                    and email like concat('%',#{example.email},'%')
+                </if>
+                <if test="example.department_id!=null">
+                    and department_id = #{example.department_id}
+                </if>
+                <if test="example.sex!=null">
+                    and sex = #{example.sex}
+                </if>
+            </if>
+        </where>
+    </select>
+    <select id="findByExampleWithPage" resultType="zz.entity.User">
+        select * from sys_user
+        <where>
+            <if test="example!=null">
+                <if test="example.account!=null and example.account.trim().length()>0">
+                    and account like concat('%',#{example.account},'%')
+                </if>
+                <if test="example.name!=null and example.name.trim().length()>0">
+                    and name like concat('%',#{example.name},'%')
+                </if>
+                <if test="example.phone!=null and example.phone.trim().length()>0">
+                    and phone like concat('%',#{example.phone},'%')
+                </if>
+                <if test="example.email!=null and example.email.trim().length()>0">
+                    and email like concat('%',#{example.email},'%')
+                </if>
+                <if test="example.department_id!=null">
+                    and department_id = #{example.department_id}
+                </if>
+                <if test="example.sex!=null">
+                    and sex = #{example.sex}
+                </if>
+            </if>
+        </where>
+        order by id desc limit #{start},#{rows}
+    </select>
+    <select id="findByExampleWithBean" resultType="zz.entity.User" parameterType="zz.entity.User">
+        select * from sys_user where account = #{account}
+    </select>
+    <update id="update" parameterType="zz.entity.User">
+        update sys_user
+        <set>
+          <if test="name!=null">name=#{name},</if>
+          <if test="phone!=null">phone=#{phone},</if>
+          <if test="email!=null">email=#{email},</if>
+          <if test="pass!=null">pass=#{pass},</if>
+          <if test="salt!=null">salt=#{salt},</if>
+          <if test="head!=null">head=#{head},</if>
+          <if test="sex!=null">sex=#{sex},</if>
+          <if test="birthday!=null">birthday=#{birthday},</if>
+          <if test="department_id!=null">department_id=#{department_id},</if>
+        </set>
+        where account = #{account}
+    </update>
+    <insert id="add" parameterType="zz.entity.User" useGeneratedKeys="true" keyProperty="id">
+      insert into sys_user (account,name,phone,email,pass,salt,head,sex,birthday,department_id,register_time)
+      values (#{account},#{name},#{phone},#{email},#{pass},#{salt},#{head},#{sex},#{birthday},#{department_id},#{register_time})
+    </insert>
+    <delete id="delete" parameterType="int">
+        delete from sys_user where id = #{id}
+    </delete>
 </mapper>
