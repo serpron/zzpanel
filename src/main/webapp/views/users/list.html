@@ -1,0 +1,102 @@
+<div class="layui-fluid">
+  <div class="layui-row">
+    <div class="layui-col-xs12">
+      <div class="layui-card">
+        <div class="layui-card-header">表单</div>
+        <div class="layui-card-body">
+          <div id="data-head-bar">
+            <a href="#/users/add" class="layui-btn layui-btn-xs">新增</a>
+            <a href="javascript:;" id="search-btn" class="layui-btn layui-btn-xs layui-btn-primary"><i class="layui-icon layui-icon-search"></i></a>
+          </div>
+          <table id="data_tab" lay-filter="data_tab"></table>
+          <script type="text/html" id="data_bar">
+            <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+          </script>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+    layui.use(['table','sidebar','layer','route'], function(){
+        var table = layui.table;
+        var sidebar = layui.sidebar;
+        var $ = layui.jquery;
+        var route = layui.route;
+        //第一个实例
+        var dataTable = table.render({
+            elem: '#data_tab'
+            ,url: '/users' //数据接口
+            ,page: true //开启分页
+            ,cols: [[ //表头
+                {field: 'id', title: 'ID', width:80, sort: true, fixed: 'left'}
+                ,{field: 'account', title: '账号', width:120, sort: true, fixed: 'left'}
+                ,{field: 'name', title: '用户名', width:200, sort: true}
+                ,{field: 'sex', title: '性别', width:80, sort: true}
+                ,{field: 'phone', title: '电话', width:80, sort:true}
+                ,{field: 'email', title: '邮件', width: 120, sort:true}
+                ,{field: 'birthday', title: '生日', width: 200, sort: true}
+                ,{field: 'register_time', title: '注册时间', width: 200, sort: true}
+                ,{field: 'department_id', title: '部门', width: 80, sort: true}
+                ,{field: 'head', title: '头像'}
+                ,{field: 'operation', title:'操作', toolbar:'#data_bar',align:'center'}
+            ]]
+        });
+        table.on('tool(data_tab)', function(obj){ //注：tool是工具条事件名，data是table原始容器的属性 lay-filter="对应的值"
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+            var tr = obj.tr; //获得当前行 tr 的DOM对象
+            if (layEvent === 'detail') { //查看
+                //do somehing
+            } else if (layEvent === 'del') { //删除
+                layer.confirm('真的删除行么', function (index) {
+                    //向服务端发送删除指令
+                    $.ajax({
+                        url:'/users/'+data.id,
+                        method:'DELETE',
+                        dataType:'json',
+                        success:function(res){
+                          if(res.code == 200){
+                              obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+                              layer.close(index);
+                          }else{
+                              layer.alert("删除失败:"+res.data,{icon:5});
+                          }
+                        }
+                    });
+                });
+            } else if (layEvent === 'edit') { //编辑
+               route.render('#/users/id?id=' + data.id+"&num="+Math.random());
+            }
+        });
+        $("#search-btn").click(function(){
+            $.get(route.getRoute('#/users/search').component,function(data){
+              layui.layer.open({
+                  title:"查找用户",
+                  type:1,
+                  area:'450px',
+                  content:data,
+                  btn:['搜索'],
+                  skin:'layui-layer-lan',
+                  yes:function(index,layero){
+                      // 重载表格
+                      dataTable.reload({
+                        where:{
+                            account:$("[name='account']").val(),
+                            name:$("[name='name']").val(),
+                            phone:$("[name='phone']").val(),
+                            email:$("[name='email']").val(),
+                            sex:$("[name='sex']:checked").val(),
+                            birthday:$("[name='birthday']").val(),
+                            department_id:$("[name='department_id']").val()
+                        }
+                      });
+                      // 关闭查询框
+                      layui.layer.close(index);
+                  }
+              });
+          });
+        });
+    });
+</script>

@@ -1,5 +1,7 @@
 package zz.entity;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -7,15 +9,18 @@ public class User implements Serializable {
 
     private Integer id;
     private String account;
+    private String salt;
     private String pass;
     private String name;
     private String head;
     private String phone;
     private String email;
     private Integer sex;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date birthday;
-    private Date registerTime;
-    private Integer departmentId;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date register_time;
+    private Integer department_id;
 
     public Integer getId() {
         return id;
@@ -31,6 +36,14 @@ public class User implements Serializable {
 
     public void setAccount(String account) {
         this.account = account;
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
     }
 
     public String getPass() {
@@ -89,19 +102,19 @@ public class User implements Serializable {
         this.birthday = birthday;
     }
 
-    public Date getRegisterTime() {
-        return registerTime;
+    public Date getRegister_time() {
+        return register_time;
     }
 
-    public void setRegisterTime(Date registerTime) {
-        this.registerTime = registerTime;
+    public void setRegister_time(Date register_time) {
+        this.register_time = register_time;
     }
 
-    public Integer getDepartmentId() {
-        return departmentId;
+    public Integer getDepartment_id() {
+        return department_id;
     }
 
-    public void setDepartmentId(Integer departmentId) {
-        this.departmentId = departmentId;
+    public void setDepartment_id(Integer department_id) {
+        this.department_id = department_id;
     }
 }

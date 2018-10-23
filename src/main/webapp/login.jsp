@@ -18,12 +18,12 @@
       <h2 class="kit-login-slogan">欢迎使用 <br> ZZPANEL</h2>
       <div class="kit-login-form">
         <h4 class="kit-login-title">登录</h4>
-        <form class="layui-form" method="post">
+        <form class="layui-form" method="post" action="/sessions">
           <div class="kit-login-row">
             <div class="kit-login-col">
               <i class="layui-icon">&#xe612;</i>
               <span class="kit-login-input">
-                <input type="text" name="username" lay-verify="required" placeholder="用户名/邮箱/手机号" />
+                <input type="text" name="account" lay-verify="required" placeholder="用户名/邮箱/手机号" />
               </span>
             </div>
             <div class="kit-login-col"></div>
@@ -32,7 +32,7 @@
             <div class="kit-login-col">
               <i class="layui-icon">&#xe64c;</i>
               <span class="kit-login-input">
-                <input type="password" name="password" lay-verify="required" placeholder="密码" />
+                <input type="password" name="pass" lay-verify="required" placeholder="密码" />
               </span>
             </div>
             <div class="kit-login-col"></div>
@@ -65,12 +65,11 @@
       });
       //监听提交
       form.on('submit(login_hash)', function(data) {
-        layer.msg(JSON.stringify(data.field));
+        /*layer.msg(JSON.stringify(data.field));
         setTimeout(function(){
             location.href='/';
-        },1000);
-
-        return false;
+        },1000);*/
+        return true;
       });
     });
   </script>

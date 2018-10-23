@@ -7,9 +7,9 @@ public class Department implements Serializable {
     private Integer id;
     private String name;
     private String description;
-    private Integer parentId;
+    private Integer parent_id;
     private Date createTime;
-    private String parentIds;
+    private String parent_ids;
 
     public Integer getId() {
         return id;
@@ -35,12 +35,12 @@ public class Department implements Serializable {
         this.description = description;
     }
 
-    public Integer getParentId() {
-        return parentId;
+    public Integer getParent_id() {
+        return parent_id;
     }
 
-    public void setParentId(Integer parentId) {
-        this.parentId = parentId;
+    public void setParent_id(Integer parent_id) {
+        this.parent_id = parent_id;
     }
 
     public Date getCreateTime() {
@@ -51,11 +51,11 @@ public class Department implements Serializable {
         this.createTime = createTime;
     }
 
-    public String getParentIds() {
-        return parentIds;
+    public String getParent_ids() {
+        return parent_ids;
     }
 
-    public void setParentIds(String parentIds) {
-        this.parentIds = parentIds;
+    public void setParent_ids(String parent_ids) {
+        this.parent_ids = parent_ids;
     }
 }

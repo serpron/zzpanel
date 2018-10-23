@@ -22,9 +22,9 @@
         <property name="basePackage" value="zz.dao"/>
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
     </bean>
-    <bean class="org.mybatis.spring.SqlSessionTemplate" id="sessionTemplate">
+    <!--beanclass="org.mybatis.spring.SqlSessionTemplate" id="sessionTemplate">
        <constructor-arg>
            <ref bean="sqlSessionFactory"/>
        </constructor-arg>
-    </bean>
+    </bean-->
 </beans>
