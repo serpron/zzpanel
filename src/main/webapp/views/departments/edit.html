@@ -1,110 +1,63 @@
-<!-- 模板 -->
 <div class="layui-fluid" id="data-form-contianer">
-  <div class="layui-row">
-    <div class="layui-col-xs12">
-      <div class="layui-card">
-        <div class="layui-card-header">修改用户</div>
-        <div class="layui-card-body">
-           <form class="layui-form" lay-filter="data_form_edit">
-            <div class="layui-form-item">
-              <label class="layui-form-label">账号</label>
-              <div class="layui-input-inline">
-                <input type="text" name="account" required  lay-verify="required" placeholder="账号" autocomplete="off" class="layui-input" readonly>
-              </div>
-              <div class="layui-form-mid layui-word-aux"><i style="color:red"> * </i>登录系统的账号</div>
+    <div class="layui-row">
+        <div class="layui-col-xs12">
+            <div class="layui-card">
+                <div class="layui-card-header">修改部门</div>
+                <div class="layui-card-body">
+                    <form class="layui-form" lay-filter="data_form_edit">
+                        <input type="hidden" name="id" />
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">名称</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="name" required  lay-verify="required" placeholder="名称" autocomplete="off" class="layui-input">
+                            </div>
+                            <div class="layui-form-mid layui-word-aux"><i style="color:red"> * </i></div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">描述</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="description" placeholder="描述" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">上级部门</label>
+                            <div class="layui-input-inline">
+                                <select name="parent_id" xm-select="departments_select" xm-select-radio=""></select>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <div class="layui-input-block">
+                                <button class="layui-btn" lay-submit lay-filter="data_form_edit_submit">立即提交</button>
+                                <button type="reset" class="layui-btn layui-btn-danger">重置</button>
+                                <a class="layui-btn layui-btn-primary" href="#/departments">返回列表</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div class="layui-form-item">
-               <label class="layui-form-label">名称</label>
-               <div class="layui-input-inline">
-                   <input type="text" name="name" required  lay-verify="required" placeholder="名称" autocomplete="off" class="layui-input">
-               </div>
-               <div class="layui-form-mid layui-word-aux"><i style="color:red"> * </i>在系统的名称</div>
-            </div>
-            <div class="layui-form-item">
-              <label class="layui-form-label">密码框</label>
-              <div class="layui-input-inline">
-                <input type="password" name="pass" required lay-verify="required|pass" placeholder="请输入密码" autocomplete="off" class="layui-input">
-              </div>
-              <div class="layui-form-mid layui-word-aux"><i style="color:red"> * </i>最少6位，包括至少1个大写字母，1个小写字母，1个数字，1个特殊字符</div>
-            </div>
-           <div class="layui-form-item">
-               <label class="layui-form-label">确认密码</label>
-               <div class="layui-input-inline">
-                   <input type="password" name="repass" required lay-verify="required|repass" placeholder="确认密码" autocomplete="off" class="layui-input">
-               </div>
-               <div class="layui-form-mid layui-word-aux"><i style="color:red"> * </i></div>
-           </div>
-            <div class="layui-form-item">
-              <label class="layui-form-label">电话</label>
-              <div class="layui-input-inline">
-                  <input type="text" name="phone" required lay-verify="phone" placeholder="手机号" autocomplete="off" class="layui-input">
-              </div>
-              <div class="layui-form-mid layui-word-aux"><i style="color:red"> * </i></div>
-            </div>
-           <div class="layui-form-item">
-               <label class="layui-form-label">邮箱</label>
-               <div class="layui-input-inline">
-                   <input type="text" name="email" required lay-verify="email" placeholder="邮箱" autocomplete="off" class="layui-input">
-               </div>
-           </div>
-            <div class="layui-form-item">
-              <label class="layui-form-label">性别</label>
-              <div class="layui-input-inline">
-                <input type="radio" name="sex" value="1" title="男" checked>
-                <input type="radio" name="sex" value="0" title="女" >
-              </div>
-            </div>
-           <div class="layui-form-item">
-               <label class="layui-form-label">生日</label>
-               <div class="layui-input-inline">
-                   <input type="text" name="birthday" required lay-verify="date" placeholder="生日" autocomplete="off" class="layui-input">
-               </div>
-           </div>
-           <div class="layui-form-item">
-               <label class="layui-form-label">部门</label>
-               <div class="layui-input-inline">
-                   <input type="text" name="department_id" required placeholder="部门" autocomplete="off" class="layui-input">
-               </div>
-               <div class="layui-form-mid layui-word-aux"><i style="color:red"> * </i></div>
-           </div>
-           <div class="layui-form-item">
-               <label class="layui-form-label">头像</label>
-               <div class="layui-input-inline">
-                   <input type="text" name="head" required placeholder="头像" autocomplete="off" class="layui-input" readonly>
-                   <button type="button" class="layui-btn layui-btn-primary" id="data_form_edit_head_btn" style="margin-top:5px;">
-                       <i class="layui-icon">&#xe67c;</i>上传图片
-                   </button>
-               </div>
-               <div class="layui-form-mid layui-word-aux" style="border:1px solid #eee;padding:0 !important;"><img id="head_img" width="80" height="80" style="border:none;" alt="头像"/></div>
-           </div>
-            <div class="layui-form-item">
-              <div class="layui-input-block">
-                <button class="layui-btn" lay-submit lay-filter="data_form_edit_submit">立即提交</button>
-                <button type="reset" class="layui-btn layui-btn-danger">重置</button>
-                <button class="layui-btn layui-btn-primary" id="tolist_btn">返回列表</button>
-              </div>
-            </div>
-          </form>         
         </div>
-      </div>
     </div>
-  </div>
 </div>
+<link rel="stylesheet" type="text/css" href="/static/css/formSelects-v4.css"/>
+<style type="text/css">
+    .layui-form-item .layui-input-inline{width:50%;}
+</style>
 <!-- 脚本 -->
 <script>
-  layui.use(['form','laydate','treeselect','route','upload'], function() {
+  layui.use(['form','laydate','formSelects','route','upload'], function() {
 
     var form = layui.form,
       $ = layui.jquery,
       date = layui.laydate,
       route = layui.route,
+      formSelects = layui.formSelects,
       upload = layui.upload;
 
     // 获取路由参数
     var params = route.params();
 
     // 加载数据
-    $.get("/users/"+params.id,function(res){
+    $.get("/departments/"+params.id,function(res){
         if(res.code == 200){
 
             var resData = res.data;
@@ -112,38 +65,28 @@
 
             /*下面的代码用来使用服务器数据填充表单*/
 
-            // 解决服务器返回日志中的时间格式问题
-            var birthdayStr = resData.birthday + "";
-            birthdayStr = birthdayStr ? birthdayStr.split(" ")[0] : "";
-
             // 使用服务器信息初始化表单数据
             form.val("data_form_edit", {
                 "id": resData.id
-                ,"account": resData.account
                 ,"name": resData.name
-                ,"phone": resData.phone
-                ,"email": resData.email
-                ,"sex": resData.sex + ""
-                ,"department_id": resData.department_id
-                ,"birthday": birthdayStr
-                ,"head": resData.head
+                ,"parent_id": resData.parent_id
+                ,"description": resData.description
             });
 
             // 异步加载部门数据
-            layui.treeselect({
-                elem: "[name='department_id']",
-                data: '/departments',//可以是treedata，也可以是 获取treedata的URL地址
-                headers: {"data": "tree"},  // 设置请求头
-                method: "GET"
+            // 异步加载部门数据
+            formSelects.data('departments_select', 'server', {
+                url: '/departments/'+resData.id+"/departments",
+                header:{'data':'tree'},
+                beforeSuccess: function(id, url, searchVal, result){
+                    return result.data;
+                }
             });
 
-            // 设置头像
-            $("#head_img").attr("src","/static/images/face/"+resData.head);
-
-            form.render();
+            //form.render();
         }else{
             layer.msg("数据加载失败");
-            route.render("#/users");
+            history.go(-1);
         }
 
     });
@@ -151,63 +94,17 @@
     // 刷新表格
     function renderForm(resData) {
 
-        // 日期控件
-        date.render({
-            elem: "[name='birthday']"
-        });
-
-        // 自定义表单校验
-        form.verify({
-            pass: function (value, dom) {
-                if (!/^.*(?=.{6,})(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*? ]).*$/.test(value)) {
-                    return "最少6位，包括至少1个大写字母，1个小写字母，1个数字，1个特殊字符";
-                }
-            },
-            repass: function (value, dom) {
-                var repassVal = $("[name='pass']").val();
-                if (value != repassVal) return "两次录入的密码不一致";
-            }
-        });
-
-        //普通图片上传
-        var uploadInst = upload.render({
-            elem: '#data_form_edit_head_btn',
-            url: '/images/heads?oldFileName='+resData.head,
-            field: 'file',
-            before: function (obj) {
-                //预读本地文件示例，不支持ie8
-                obj.preview(function (index, file, result) {
-                    $('#head_img').attr('src', result); //图片链接（base64）
-                });
-            },
-            done: function (res) {
-                //如果上传失败
-                if (res.code == 500) {
-                    return layer.msg(res.message);
-                }
-                //上传成功
-                $("#data_form_edit_head_btn").val(res.data);
-            },
-            error: function () {
-                layer.msg('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-mini demo-reload">重试</a>');
-            }
-        });
-
         //监听提交
         form.on('submit(data_form_edit_submit)', function (data) {
-            data.field.file && delete data.field.file;
-            $.ajax({url:'/users', data:data.field, success:function (res) {
+            $.ajax({url:'/departments', data:data.field, success:function (res) {
                 //console.log(res);
-                layer.msg(res.message);
-                res.code == 200 && route.render('#/users');
+                layer.msg(res.msg);
+                if(res.code == 200)
+                    location.href='/#/departments';
             }, dataType:'json',type:"put"});
             return false;
         });
 
-        // 返回列表页面
-        $("#tolist_btn").click(function(){
-            route.render("#/users");
-        });
     }
 
   });
@@ -232,7 +129,7 @@
         box-shadow: 0 2px 4px rgba(0,0,0,.12);
         box-sizing: border-box;
     }
-    data-form-contianer .layui-form-selected .layui-tree {
+    #data-form-contianer .layui-form-selected .layui-tree {
         display: block;
     }
 </style>

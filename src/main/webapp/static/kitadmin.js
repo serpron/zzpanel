@@ -18,7 +18,8 @@ if (layui === undefined) {
     sidebar:'kit_modules/sidebar',
     select:'kit_modules/select',
     echarts:'kit_modules/echarts',
-    treeselect:'kit_modules/treeselect'
+    //treeSelect:'kit_modules/treeSelect',
+    formSelects:'kit_modules/formSelects-v4'
   };
 
   layui.injectModules(modules);

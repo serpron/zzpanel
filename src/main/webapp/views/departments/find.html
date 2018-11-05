@@ -3,9 +3,9 @@
         <div class="layui-col-xs12">
             <form class="layui-form" lay-filter="data_form_find" id="data_form_find">
                 <div class="layui-form-item">
-                    <label class="layui-form-label">账号</label>
+                    <label class="layui-form-label">编号</label>
                     <div class="layui-input-block">
-                        <input type="text" name="account"  placeholder="账号" autocomplete="off" class="layui-input">
+                        <input type="text" name="id"  placeholder="编号" autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-form-item">
@@ -15,34 +15,21 @@
                     </div>
                 </div>
                 <div class="layui-form-item">
-                    <label class="layui-form-label">手机号</label>
-                    <div class="layui-input-block">
-                        <input type="text" name="phone" placeholder="手机号" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">邮箱</label>
-                    <div class="layui-input-block">
-                        <input type="text" name="email" placeholder="邮箱" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">性别</label>
-                    <div class="layui-input-block">
-                        <input type="radio" name="sex" value="1" title="男" >
-                        <input type="radio" name="sex" value="0" title="女" >
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">生日</label>
-                    <div class="layui-input-block">
-                        <input type="text" name="birthday" placeholder="生日" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-form-item">
                     <label class="layui-form-label">部门</label>
                     <div class="layui-input-block">
-                        <input type="text" name="department_id" placeholder="部门" autocomplete="off" class="layui-input">
+                        <input type="text" name="parent_id" lay-filter="parent_id_input" id="parent_id_input" placeholder="部门" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">部门路径</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="parent_ids"  placeholder="部门路径" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">描述</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="description"  placeholder="描述" autocomplete="off" class="layui-input">
                     </div>
                 </div>
             </form>
@@ -51,24 +38,38 @@
 </div>
 <!-- 脚本 -->
 <script>
-    layui.use(['form','laydate','treeselect','route'], function() {
+    layui.use(['form','laydate','treeSelect','route'], function() {
 
         var form = layui.form,
             $ = layui.jquery,
             date = layui.laydate,
+            treeSelect = layui.treeSelect,
             route = layui.route;
 
         // 异步加载部门数据
-        layui.treeselect({
-            elem: "[name='department_id']",
-            data: "/departments",//可以是treedata，也可以是 获取treedata的URL地址
-            headers: {"data":"tree"},  // 设置请求头
-            method: "GET"
-        });
-
-        // 日期控件
-        date.render({
-            elem:"[name='birthday']"
+        // 异步加载部门数据
+        treeSelect.render({
+            // 选择器
+            elem: '#parent_id_input',
+            // 数据
+            data: '/departments',
+            // 异步加载方式：get/post，默认get
+            type: 'get',
+            headers: {"data":"tree"},
+            // 占位符
+            placeholder: '资源',
+            // 是否开启搜索功能：true/false，默认false
+            search: true,
+            // 点击回调
+            click: function(d){
+                //
+                $("#parent_id_input").val(d.current.id);
+            },
+            // 加载完成后的回调函数
+            success: function (d) {
+                // 选中节点，根据id筛选
+                treeSelect.checkNode('parent_id_input', resData.parent_id);
+            }
         });
 
         form.render();

@@ -1,19 +1,38 @@
 package zz.entity;
 
+import org.springframework.format.annotation.DateTimeFormat;
+import zz.util.DictionaryService;
+
 import java.io.Serializable;
 import java.util.Date;
 
 public class Resource implements Serializable {
     private Integer id;
-    private String ur;
-    private String menuClass;
-    private String menuName;
-    private Integer parentId;
+    private String url;
+    private String menu_class;
+    private String menu_name;
+    private Integer parent_id;
+    private String parent_name;
     private Integer sequence;
-    private String menuType;
-    private Date createTime;
+    private String menu_type;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date create_time;
     private String permissions;
-    private String parentIds;
+    private String parent_ids;
+
+    public Integer getValue(){return this.id;}
+
+    public String getMenu_typeString(){
+        return DictionaryService.getInstance().getProperty(getMenu_type(),"menu_type");
+    }
+
+    public String getParent_name() {
+        return parent_name;
+    }
+
+    public void setParent_name(String parent_name) {
+        this.parent_name = parent_name;
+    }
 
     public Integer getId() {
         return id;
@@ -23,36 +42,36 @@ public class Resource implements Serializable {
         this.id = id;
     }
 
-    public String getUr() {
-        return ur;
+    public String getUrl() {
+        return url;
     }
 
-    public void setUr(String ur) {
-        this.ur = ur;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
-    public String getMenuClass() {
-        return menuClass;
+    public String getMenu_class() {
+        return menu_class;
     }
 
-    public void setMenuClass(String menuClass) {
-        this.menuClass = menuClass;
+    public void setMenu_class(String menu_class) {
+        this.menu_class = menu_class;
     }
 
-    public String getMenuName() {
-        return menuName;
+    public String getMenu_name() {
+        return menu_name;
     }
 
-    public void setMenuName(String menuName) {
-        this.menuName = menuName;
+    public void setMenu_name(String menu_name) {
+        this.menu_name = menu_name;
     }
 
-    public Integer getParentId() {
-        return parentId;
+    public Integer getParent_id() {
+        return parent_id;
     }
 
-    public void setParentId(Integer parentId) {
-        this.parentId = parentId;
+    public void setParent_id(Integer parent_id) {
+        this.parent_id = parent_id;
     }
 
     public Integer getSequence() {
@@ -63,20 +82,20 @@ public class Resource implements Serializable {
         this.sequence = sequence;
     }
 
-    public String getMenuType() {
-        return menuType;
+    public String getMenu_type() {
+        return menu_type;
     }
 
-    public void setMenuType(String menuType) {
-        this.menuType = menuType;
+    public void setMenu_type(String menu_type) {
+        this.menu_type = menu_type;
     }
 
-    public Date getCreateTime() {
-        return createTime;
+    public Date getCreate_time() {
+        return create_time;
     }
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
+    public void setCreate_time(Date create_time) {
+        this.create_time = create_time;
     }
 
     public String getPermissions() {
@@ -87,11 +106,11 @@ public class Resource implements Serializable {
         this.permissions = permissions;
     }
 
-    public String getParentIds() {
-        return parentIds;
+    public String getParent_ids() {
+        return parent_ids;
     }
 
-    public void setParentIds(String parentIds) {
-        this.parentIds = parentIds;
+    public void setParent_ids(String parent_ids) {
+        this.parent_ids = parent_ids;
     }
 }

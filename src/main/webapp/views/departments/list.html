@@ -2,7 +2,7 @@
   <div class="layui-row">
     <div class="layui-col-xs12">
       <div class="layui-card">
-        <div class="layui-card-header">表单</div>
+        <div class="layui-card-header">部门管理</div>
         <div class="layui-card-body">
           <div id="data-head-bar">
             <a href="#/departments/add" class="layui-btn layui-btn-xs">新增</a>
@@ -29,11 +29,12 @@
             elem: '#data_tab'
             ,url: '/departments' //数据接口
             ,page: true //开启分页
+            ,response:{statusCode:200} // 指定成功的状态码
             ,cols: [[ //表头
                 {field: 'id', title: 'ID', width:80, sort: true, fixed: 'left'}
                 ,{field: 'name', title: '名称', width:120, sort: true, fixed: 'left'}
-                ,{field: 'parentId', title: '上级部门', width:200, sort: true}
-                ,{field: 'parentIds', title: '层次', width:80, sort: true}
+                ,{field: 'parent_name', title: '上级部门', width:200, sort: true}
+                ,{field: 'parent_ids', title: '层次', width:400, sort: true}
                 ,{field: 'description', title: '描述'}
                 ,{field: 'operation', title:'操作', toolbar:'#data_bar',align:'center'}
             ]]
@@ -48,7 +49,7 @@
                 layer.confirm('真的删除行么', function (index) {
                     //向服务端发送删除指令
                     $.ajax({
-                        url:'/users/'+data.id,
+                        url:'/departments/'+data.id,
                         method:'DELETE',
                         dataType:'json',
                         success:function(res){
@@ -62,13 +63,13 @@
                     });
                 });
             } else if (layEvent === 'edit') { //编辑
-               route.render('#/users/id?id=' + data.id+"&num="+Math.random());
+               route.render('#/departments/id?id=' + data.id);
             }
         });
         $("#search-btn").click(function(){
-            $.get(route.getRoute('#/users/search').component,function(data){
+            $.get(route.getRoute('#/departments/search').component,function(data){
               layui.layer.open({
-                  title:"查找用户",
+                  title:"查找部门",
                   type:1,
                   area:'450px',
                   content:data,
@@ -78,13 +79,11 @@
                       // 重载表格
                       dataTable.reload({
                         where:{
-                            account:$("[name='account']").val(),
+                            id:$("[name='id']").val(),
                             name:$("[name='name']").val(),
-                            phone:$("[name='phone']").val(),
-                            email:$("[name='email']").val(),
-                            sex:$("[name='sex']:checked").val(),
-                            birthday:$("[name='birthday']").val(),
-                            department_id:$("[name='department_id']").val()
+                            parent_id:$("[name='parent_id']").val(),
+                            parent_ids:$("[name='parent_ids']").val(),
+                            description:$("[name='description']").val()
                         }
                       });
                       // 关闭查询框

@@ -1,0 +1,120 @@
+<div class="layui-fluid" id="data-form-contianer">
+  <div class="layui-row">
+    <div class="layui-col-xs12">
+      <div class="layui-card">
+        <div class="layui-card-header">修改角色</div>
+        <div class="layui-card-body">
+           <form class="layui-form" lay-filter="data_form_edit">
+               <input type="hidden" name="id"/>
+               <div class="layui-form-item">
+                   <label class="layui-form-label">名称</label>
+                   <div class="layui-input-block">
+                       <input type="text" name="name" required  lay-verify="required" placeholder="名称" autocomplete="off" class="layui-input">
+                   </div>
+               </div>
+               <div class="layui-form-item">
+                   <label class="layui-form-label">用户</label>
+                   <div class="layui-input-block">
+                       <select name="users" xm-select="users_select"></select>
+                   </div>
+               </div>
+               <div class="layui-form-item">
+                   <label class="layui-form-label">资源</label>
+                   <div class="layui-input-block">
+                       <select name="resources" xm-select="resources_select"></select>
+                   </div>
+               </div>
+               <div class="layui-form-item">
+                   <label class="layui-form-label">描述</label>
+                   <div class="layui-input-block">
+                       <input type="text" name="description" placeholder="描述" autocomplete="off" class="layui-input">
+                   </div>
+               </div>
+               <div class="layui-form-item">
+                   <div class="layui-input-block">
+                       <button class="layui-btn" lay-submit lay-filter="data_form_edit_submit">立即提交</button>
+                       <button type="reset" class="layui-btn layui-btn-danger">重置</button>
+                       <a class="layui-btn layui-btn-primary" href="#/roles">返回列表</a>
+                   </div>
+               </div>
+          </form>         
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<link rel="stylesheet" type="text/css" href="/static/css/formSelects-v4.css"/>
+<!-- 脚本 -->
+<script>
+
+  layui.use(['form','laydate','route','upload','formSelects'], function() {
+
+    var form = layui.form,
+      $ = layui.jquery,
+      date = layui.laydate,
+      route = layui.route,
+      upload = layui.upload,
+      formSelects = layui.formSelects;
+
+    // 获取路由参数
+    var params = route.params();
+
+    // 加载数据
+    $.get("/roles/"+params.id,function(res){
+        if(res.code == 200){
+
+            var resData = res.data;
+            renderForm(resData);
+
+            // 使用服务器信息初始化表单数据
+            form.val("data_form_edit", {
+                "id": resData.id
+                ,"name": resData.name
+                ,"description": resData.description
+            });
+
+            formSelects.data('users_select', 'server', {
+                url: '/roles/'+resData.id+'/users',
+                beforeSuccess: function(id, url, searchVal, result){
+                    return result.data;
+                },
+                success:function(){
+                    form.render();
+                }
+            });
+
+            formSelects.data('resources_select', 'server', {
+                url: '/roles/'+resData.id+'/resources',
+                beforeSuccess: function(id, url, searchVal, result){
+                    return result.data;
+                },
+                success:function(){
+                    form.render();
+                }
+            });
+
+        }else{
+            layer.msg("数据加载失败");
+            route.render("#/roles");
+        }
+
+    });
+
+    // 刷新表格
+    function renderForm(resData) {
+        //监听提交
+        form.on('submit(data_form_edit_submit)', function (data) {
+            data.field.file && delete data.field.file;
+            $.ajax({url:'/roles', data:data.field, success:function (res) {
+                layer.msg(res.msg);
+                if(res.code == 200)
+                    location.href='/#/roles';
+            }, dataType:'json',type:"put"});
+            return false;
+        });
+
+    }
+
+  });
+
+</script>

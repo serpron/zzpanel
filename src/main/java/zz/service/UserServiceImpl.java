@@ -9,13 +9,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import sun.reflect.generics.tree.Tree;
 import zz.dao.UserMapper;
+import zz.entity.TreeNode;
 import zz.entity.User;
 import zz.util.Page;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Transactional(readOnly = true)
 @Service("userService")
@@ -23,7 +27,18 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private TreeNodeService treeNodeService;
+
     static final SimpleDateFormat DF = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+
+    @Override
+    public List<User> find(User example) {
+        List<String> filters = new ArrayList<>();
+        filters.add("name");
+        filters.add("id");
+        return this.userMapper.findByExample(example);
+    }
 
     @Override
     public Page<User> find(User example,int page,int rows) {
@@ -95,6 +110,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<Map<String, Object>> findSelectInfo(User example) {
+        return this.userMapper.findSelctInfoByExample(example);
+    }
+
+    @Override
+    public List<TreeNode> findDepartmentsWithTree(Integer id) {
+        List<Integer> selectedIdList = new ArrayList<>();
+        if(id!=null) {
+            User user = this.userMapper.findById(id);
+            selectedIdList.add(user.getDepartment_id());
+        }
+        return this.treeNodeService.generateDepartmentTree(selectedIdList);
+    }
+
+    @Override
     public User findById(Integer id) {
         return this.userMapper.findById(id);
     }
@@ -144,5 +174,11 @@ public class UserServiceImpl implements UserService {
         this.userMapper = userMapper;
     }
 
+    public TreeNodeService getTreeNodeService() {
+        return treeNodeService;
+    }
 
+    public void setTreeNodeService(TreeNodeService treeNodeService) {
+        this.treeNodeService = treeNodeService;
+    }
 }

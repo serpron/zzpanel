@@ -1,13 +1,17 @@
 package zz.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class Role implements Serializable {
     private Integer id;
-    private Date createTime;
+    private Date create_time;
     private String description;
     private String name;
+    private Integer[] users ;
+    private Integer[] resources;
 
     public Integer getId() {
         return id;
@@ -17,12 +21,12 @@ public class Role implements Serializable {
         this.id = id;
     }
 
-    public Date getCreateTime() {
-        return createTime;
+    public Date getCreate_time() {
+        return create_time;
     }
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
+    public void setCreate_time(Date create_time) {
+        this.create_time = create_time;
     }
 
     public String getDescription() {
@@ -39,5 +43,21 @@ public class Role implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Integer[] getUsers() {
+        return users;
+    }
+
+    public void setUsers(Integer[] users) {
+        this.users = users;
+    }
+
+    public Integer[] getResources() {
+        return resources;
+    }
+
+    public void setResources(Integer[] resources) {
+        this.resources = resources;
     }
 }

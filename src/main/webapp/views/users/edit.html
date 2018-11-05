@@ -63,7 +63,7 @@
            <div class="layui-form-item">
                <label class="layui-form-label">部门</label>
                <div class="layui-input-inline">
-                   <input type="text" name="department_id" required placeholder="部门" autocomplete="off" class="layui-input">
+                   <select name="department_id" xm-select="departments_select" xm-select-radio=""></select>
                </div>
                <div class="layui-form-mid layui-word-aux"><i style="color:red"> * </i></div>
            </div>
@@ -81,7 +81,7 @@
               <div class="layui-input-block">
                 <button class="layui-btn" lay-submit lay-filter="data_form_edit_submit">立即提交</button>
                 <button type="reset" class="layui-btn layui-btn-danger">重置</button>
-                <button class="layui-btn layui-btn-primary" id="tolist_btn">返回列表</button>
+                <a class="layui-btn layui-btn-primary" href="#/users">返回列表</a>
               </div>
             </div>
           </form>         
@@ -90,14 +90,19 @@
     </div>
   </div>
 </div>
+<link rel="stylesheet" type="text/css" href="/static/css/formSelects-v4.css"/>
+<style type="text/css">
+    .layui-form-item .layui-input-inline{width:30%;}
+</style>
 <!-- 脚本 -->
 <script>
-  layui.use(['form','laydate','treeselect','route','upload'], function() {
+  layui.use(['form','laydate','formSelects','route','upload'], function() {
 
     var form = layui.form,
       $ = layui.jquery,
       date = layui.laydate,
       route = layui.route,
+      formSelects = layui.formSelects,
       upload = layui.upload;
 
     // 获取路由参数
@@ -112,12 +117,7 @@
 
             /*下面的代码用来使用服务器数据填充表单*/
 
-            // 解决服务器返回日志中的时间格式问题
-            var birthdayStr = resData.birthday + "";
-            birthdayStr = birthdayStr ? birthdayStr.split(" ")[0] : "";
-
-            // 使用服务器信息初始化表单数据
-            form.val("data_form_edit", {
+            var obj = {
                 "id": resData.id
                 ,"account": resData.account
                 ,"name": resData.name
@@ -125,25 +125,33 @@
                 ,"email": resData.email
                 ,"sex": resData.sex + ""
                 ,"department_id": resData.department_id
-                ,"birthday": birthdayStr
                 ,"head": resData.head
-            });
+            };
+
+            // 解决服务器返回日志中的时间格式问题
+            if(resData.birthday){
+                obj['birthday'] = resData.birthday.toString().split(" ")[0];
+            }
+
+            // 使用服务器信息初始化表单数据
+            form.val("data_form_edit", obj);
 
             // 异步加载部门数据
-            layui.treeselect({
-                elem: "[name='department_id']",
-                data: '/departments',//可以是treedata，也可以是 获取treedata的URL地址
-                headers: {"data": "tree"},  // 设置请求头
-                method: "GET"
+            formSelects.data('departments_select', 'server', {
+                url: '/users/'+resData.id+"/departments",
+                header:{'data':'tree'},
+                beforeSuccess: function(id, url, searchVal, result){
+                    return result.data;
+                }
             });
 
             // 设置头像
-            $("#head_img").attr("src","/static/images/face/"+resData.head);
+            if(resData.head) $("#head_img").attr("src","/static/images/face/"+resData.head);
 
             form.render();
         }else{
             layer.msg("数据加载失败");
-            route.render("#/users");
+            history.go(-1);
         }
 
     });
@@ -183,7 +191,7 @@
             done: function (res) {
                 //如果上传失败
                 if (res.code == 500) {
-                    return layer.msg(res.message);
+                    return layer.msg(res.msg);
                 }
                 //上传成功
                 $("#data_form_edit_head_btn").val(res.data);
@@ -198,16 +206,13 @@
             data.field.file && delete data.field.file;
             $.ajax({url:'/users', data:data.field, success:function (res) {
                 //console.log(res);
-                layer.msg(res.message);
-                res.code == 200 && route.render('#/users');
+                layer.msg(res.msg);
+                if(res.code == 200)
+                    location.href='/#/users';
             }, dataType:'json',type:"put"});
             return false;
         });
 
-        // 返回列表页面
-        $("#tolist_btn").click(function(){
-            route.render("#/users");
-        });
     }
 
   });

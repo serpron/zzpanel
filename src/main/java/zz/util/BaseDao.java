@@ -12,10 +12,12 @@ public interface BaseDao<T,I extends Serializable> {
     void add(T entity);
     void update(T entity);
     void delete(I id);
+    void deleteByEntity(T entity);
     T findById(I id);
     T findByExampleWithBean(T example);
     int count(@Param("example") T example);
     List<T> findByExample(@Param("example") T example);
+    List<Map<String,Object>> findSelctInfoByExample(@Param("example")T example);
     List<T> findByExampleWithPage(@Param("example") T example, @Param("start") Integer start, @Param("rows") Integer rows);
     List<Map<String,Object>> findByMapWithPage(Map<String,Object> params, Integer page, Integer rows);
 }
