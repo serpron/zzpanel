@@ -10,6 +10,7 @@ public class Department implements Serializable {
     private Integer parent_id;
     private Date createTime;
     private String parent_ids;
+    private String parent_name;
 
     public Integer getId() {
         return id;
@@ -57,5 +58,13 @@ public class Department implements Serializable {
 
     public void setParent_ids(String parent_ids) {
         this.parent_ids = parent_ids;
+    }
+
+    public String getParent_name() {
+        return parent_name;
+    }
+
+    public void setParent_name(String parent_name) {
+        this.parent_name = parent_name;
     }
 }

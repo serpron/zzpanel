@@ -4,9 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import zz.entity.TreeNode;
 import zz.entity.User;
 import zz.service.UserService;
-import zz.util.LayuiTableData;
 import zz.util.Page;
 import zz.util.WebResult;
 import zz.util.WebResultCodeType;
@@ -27,9 +27,31 @@ public class UserController {
      */
     @ResponseBody
     @RequestMapping(value = "/users",method = RequestMethod.GET,produces = {"application/json;charset=UTF-8"})
-    public Object find(User user,@RequestParam(defaultValue = "1") int page, @RequestParam(value = "limit",defaultValue = "10") int rows){
-        Page<User> pageBean = this.userService.find(user,page,rows);
-        return LayuiTableData.fromPage(pageBean);
+    public Object find(User user,@RequestParam(defaultValue = "-1") int page, @RequestParam(value = "limit",defaultValue = "10") int rows){
+        if(page!=-1) {
+            Page<User> pageBean = this.userService.find(user, page, rows);
+            return WebResult.fromPage(pageBean);
+        }else{
+            return new WebResult<>(this.userService.find(user));
+        }
+    }
+
+    /**
+     * 查找所有用户以select方式打开
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/users",headers = "data=select",method = RequestMethod.GET,produces = {"application/json;charset=UTF-8"})
+    public Object find(User user){
+        return new WebResult<>(this.userService.findSelectInfo(null));
+    }
+
+    @RequestMapping(value="/users/{id}/departments",headers="data=tree",
+            method = RequestMethod.GET,produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public Object findDepartmentsWithTree(@PathVariable("id") Integer id){
+        List<TreeNode> list = this.userService.findDepartmentsWithTree(id);
+        return new WebResult<>(list);
     }
 
     /**

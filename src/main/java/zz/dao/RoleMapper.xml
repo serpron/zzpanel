@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="zz.dao.RoleMapper">
+    <select id="findById" parameterType="int" resultType="Role">
+        select * from sys_role where id = #{id}
+    </select>
+    <select id="count" resultType="int" parameterType="Role">
+        select count(*) from sys_role
+        <where>
+            <if test="example!=null">
+                <if test="example.id!=null">
+                    and id = #{example.id}
+                </if>
+                <if test="example.name!=null and example.name.trim().length()>0">
+                    and name like concat('%',#{example.name},'%')
+                </if>
+                <if test="example.description!=null and example.description.trim().length()>0">
+                    and description like concat('%',#{example.description},'%')
+                </if>
+            </if>
+        </where>
+    </select>
+    <select id="findByExample" resultType="Role">
+        select * from sys_role
+        <where>
+            <if test="example!=null">
+                <if test="example.id!=null">
+                    and id = #{example.id}
+                </if>
+                <if test="example.name!=null and example.name.trim().length()>0">
+                    and name like concat('%',#{example.name},'%')
+                </if>
+                <if test="example.description!=null and example.description.trim().length()>0">
+                    and description like concat('%',#{example.description},'%')
+                </if>
+            </if>
+        </where>
+        order by d1.id
+    </select>
+    <select id="findByExampleWithPage" resultType="Role">
+        select * from sys_role
+        <where>
+            <if test="example!=null">
+                <if test="example.id!=null">
+                    and id = #{example.id}
+                </if>
+                <if test="example.name!=null and example.name.trim().length()>0">
+                    and name like concat('%',#{example.name},'%')
+                </if>
+                <if test="example.description!=null and example.description.trim().length()>0">
+                    and description like concat('%',#{example.description},'%')
+                </if>
+            </if>
+        </where>
+        order by id limit #{start},#{rows}
+    </select>
+    <select id="findByExampleWithBean" resultType="Role" parameterType="Role">
+        select * from sys_role where id = #{id}
+    </select>
+    <update id="update" parameterType="Role">
+        update sys_role
+        <set>
+          <if test="id!=null">name=#{id},</if>
+          <if test="name!=null">name=#{name},</if>
+          <if test="create_time!=null">create_time=#{create_time},</if>
+          <if test="description!=null">description=#{description},</if>
+        </set>
+        where id = #{id}
+    </update>
+    <insert id="add" parameterType="Role" useGeneratedKeys="true" keyProperty="id">
+      insert into sys_role (id,name,description,create_time) values (#{id},#{name},#{description},#{create_time})
+    </insert>
+    <delete id="delete" parameterType="int">
+        delete from sys_role where id = #{id}
+    </delete>
+</mapper>

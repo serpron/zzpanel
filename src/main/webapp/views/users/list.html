@@ -2,7 +2,7 @@
   <div class="layui-row">
     <div class="layui-col-xs12">
       <div class="layui-card">
-        <div class="layui-card-header">表单</div>
+        <div class="layui-card-header">用户管理</div>
         <div class="layui-card-body">
           <div id="data-head-bar">
             <a href="#/users/add" class="layui-btn layui-btn-xs">新增</a>
@@ -29,6 +29,7 @@
             elem: '#data_tab'
             ,url: '/users' //数据接口
             ,page: true //开启分页
+            ,response:{statusCode:200} // 指定成功的状态码
             ,cols: [[ //表头
                 {field: 'id', title: 'ID', width:80, sort: true, fixed: 'left'}
                 ,{field: 'account', title: '账号', width:120, sort: true, fixed: 'left'}
@@ -67,7 +68,7 @@
                     });
                 });
             } else if (layEvent === 'edit') { //编辑
-               route.render('#/users/id?id=' + data.id+"&num="+Math.random());
+               route.render('#/users/id?id=' + data.id);
             }
         });
         $("#search-btn").click(function(){

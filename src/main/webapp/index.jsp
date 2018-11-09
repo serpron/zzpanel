@@ -164,13 +164,63 @@
                 },
                 {
                     path: '/departments',
-                    component: '/departments',
+                    component: '/views/departments/list.html',
                     name: '部门列表'
                 },
                 {
+                    path: '/departments/add',
+                    component: '/views/departments/add.html',
+                    name: '添加部门'
+                },
+                {
+                    path: '/departments/id',
+                    component: '/views/departments/edit.html',
+                    name: '编辑部门'
+                },
+                {
+                    path: '/departments/search',
+                    component: '/views/departments/find.html',
+                    name: '查找部门'
+                },
+                {
                     path: '/roles',
-                    component: '/roles',
+                    component: '/views/roles/list.html',
                     name: '角色列表'
+                },
+                {
+                    path: '/roles/add',
+                    component: '/views/roles/add.html',
+                    name: '添加角色'
+                },
+                {
+                    path: '/roles/id',
+                    component: '/views/roles/edit.html',
+                    name: '编辑角色'
+                },
+                {
+                    path: '/roles/search',
+                    component: '/views/roles/find.html',
+                    name: '查找角色'
+                },
+                {
+                    path: '/resources',
+                    component: '/views/resources/list.html',
+                    name: '资源列表'
+                },
+                {
+                    path: '/resources/add',
+                    component: '/views/resources/add.html',
+                    name: '添加资源'
+                },
+                {
+                    path: '/resources/id',
+                    component: '/views/resources/edit.html',
+                    name: '编辑资源'
+                },
+                {
+                    path: '/resources/search',
+                    component: '/views/resources/find.html',
+                    name: '查找资源'
                 }
             ]
         });
@@ -190,7 +240,8 @@
                 {id:3,title:'系统设置',pid:0,open:true,icon:'&#xe656;',children:[
                         {id:31,title:'用户管理',path:'#/users',pid:3,open:false,children:[],icon:'&#xe62d;'},
                         {id:32,title:'部门管理',path:'#/departments',pid:3,open:false,children:[],icon:'&#xe62d;'},
-                        {id:33,title:'角色管理',path:'#/roles',pid:3,open:false,children:[],icon:'&#xe63c;'}
+                        {id:33,title:'角色管理',path:'#/roles',pid:3,open:false,children:[],icon:'&#xe63c;'},
+                        {id:34,title:'资源管理',path:'#/resources',pid:3,open:false,children:[],icon:'&#xe63c;'}
                     ]
                 }
             ]

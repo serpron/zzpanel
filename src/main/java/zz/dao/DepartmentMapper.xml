@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="zz.dao.DepartmentMapper">
-    <select id="count" resultType="int" parameterType="zz.entity.Department">
+    <select id="findById" parameterType="int" resultType="Department">
+        select * from sys_department where id = #{id}
+    </select>
+    <select id="count" resultType="int" parameterType="Department">
         select count(*) from sys_department
         <where>
             <if test="example!=null">
@@ -20,50 +23,53 @@
             </if>
         </where>
     </select>
-    <select id="findByExample" resultType="zz.entity.Department">
-        select * from sys_department
+    <select id="findByExample" resultType="Department">
+        select d1.*,(select name from sys_department d2 where d2.id = d1.parent_id) parent_name from sys_department d1
         <where>
             <if test="example!=null">
                 <if test="example.name!=null and example.name.trim().length()>0">
-                    and name = #{example.name}
+                    and d1.name = #{example.name}
                 </if>
                 <if test="example.parent_id!=null">
-                    and parent_id = #{example.parent_id}
+                    and d1.parent_id = #{example.parent_id}
                 </if>
                 <if test="example.parent_ids!=null and example.parent_ids.trim().length()>0">
-                    and parent_ids like concat(#{example.parent_ids},'%')
+                    and d1.parent_ids like concat(#{example.parent_ids},'%')
                 </if>
                 <if test="example.description!=null and example.description.trim().length()>0">
-                    and description like concat('%',#{example.description},'%')
+                    and d1.description like concat('%',#{example.description},'%')
                 </if>
             </if>
         </where>
-        order by id
+        order by d1.id
     </select>
-    <select id="findByExampleWithPage" resultType="zz.entity.Department">
-        select * from sys_department
+    <select id="findByExampleWithPage" resultType="Department">
+        select d1.*,(select name from sys_department d2 where d2.id = d1.parent_id) parent_name from sys_department d1
         <where>
             <if test="example!=null">
+                <if test="example.id!=null">
+                    and d1.id = #{example.id}
+                </if>
                 <if test="example.name!=null and example.name.trim().length()>0">
-                    and name = #{example.name}
+                    and d1.name like concat('%',#{example.name},'%')
                 </if>
                 <if test="example.parent_id!=null">
-                    and parent_id = #{example.parent_id}
+                    and d1.parent_id = #{example.parent_id}
                 </if>
                 <if test="example.parent_ids!=null and example.parent_ids.trim().length()>0">
-                    and parent_ids like concat('%',#{example.parent_ids},'%')
+                    and d1.parent_ids like concat('%',#{example.parent_ids},'%')
                 </if>
                 <if test="example.description!=null and example.description.trim().length()>0">
-                    and description like concat('%',#{example.description},'%')
+                    and d1.description like concat('%',#{example.description},'%')
                 </if>
             </if>
         </where>
         order by id limit #{start},#{rows}
     </select>
-    <select id="findByExampleWithBean" resultType="zz.entity.Department" parameterType="zz.entity.Department">
-        select * from sys_department where id = #{id}
+    <select id="findByExampleWithBean" resultType="Department" parameterType="Department">
+        select d1.*,(select name from sys_department d2 where d2.id = d1.parent_id) parent_name from sys_department d1 where d1.id = #{id}
     </select>
-    <update id="update" parameterType="zz.entity.User">
+    <update id="update" parameterType="Department">
         update sys_department
         <set>
           <if test="name!=null">name=#{name},</if>
@@ -73,4 +79,10 @@
         </set>
         where id = #{id}
     </update>
+    <insert id="add" parameterType="Department" useGeneratedKeys="true" keyProperty="id">
+      insert into sys_department (name,parent_id,parent_ids,description) values (#{name},#{parent_id},#{parent_ids},#{description})
+    </insert>
+    <delete id="delete" parameterType="int">
+        delete from sys_department where id = #{id}
+    </delete>
 </mapper>

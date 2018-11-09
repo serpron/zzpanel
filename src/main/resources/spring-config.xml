@@ -22,6 +22,12 @@
           class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource" />
     </bean>
+
+    <!--数据字典-->
+    <bean class="zz.util.DictionaryService" id="dictionaryService" init-method="load">
+        <property name="dictionaryMapper" ref="dictionaryMapper"/>
+    </bean>
+
     <!--导入其它配置文件-->
     <import resource="spring-mybatis.xml"/>
     <import resource="spring-aop.xml"/>

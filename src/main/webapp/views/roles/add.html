@@ -1,0 +1,86 @@
+<!-- 模板 -->
+<div class="layui-fluid" id="data-form-contianer">
+  <div class="layui-row">
+    <div class="layui-col-xs12">
+      <div class="layui-card">
+        <div class="layui-card-header">添加角色</div>
+        <div class="layui-card-body">
+           <form class="layui-form" lay-filter="data_form_add">
+            <div class="layui-form-item">
+              <label class="layui-form-label">名称</label>
+              <div class="layui-input-block">
+                <input type="text" name="name" required  lay-verify="required" placeholder="名称" autocomplete="off" class="layui-input">
+              </div>
+            </div>
+            <div class="layui-form-item">
+               <label class="layui-form-label">用户</label>
+                <div class="layui-input-block">
+                    <select name="users" xm-select="users_select"></select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+               <label class="layui-form-label">资源</label>
+               <div class="layui-input-block">
+                   <select name="resources" xm-select="resources_select"></select>
+               </div>
+            </div>
+            <div class="layui-form-item">
+               <label class="layui-form-label">描述</label>
+               <div class="layui-input-block">
+                   <input type="text" name="description" placeholder="描述" autocomplete="off" class="layui-input">
+               </div>
+            </div>
+            <div class="layui-form-item">
+              <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="data_form_add_submit">立即提交</button>
+                <button type="reset" class="layui-btn layui-btn-danger">重置</button>
+                <a class="layui-btn layui-btn-primary" href="#/roles">返回列表</a>
+              </div>
+            </div>
+          </form>         
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<link rel="stylesheet" type="text/css" href="/static/css/formSelects-v4.css"/>
+<!-- 脚本 -->
+<script>
+
+  layui.use(['form','laydate','route','upload','formSelects'], function() {
+
+    var form = layui.form,
+      $ = layui.jquery,
+      date = layui.laydate,
+      route = layui.route,
+      formSelects = layui.formSelects,
+      upload = layui.upload;
+
+      formSelects.data('users_select', 'server', {
+          url: '/users',
+          header:{'data':'select'},
+          beforeSuccess: function(id, url, searchVal, result){
+            return result.data;
+          }
+      });
+
+      formSelects.data('resources_select', 'server', {
+          url: '/resources',
+          header:{'data':'tree'},
+          beforeSuccess: function(id, url, searchVal, result){
+              return result.data;
+          }
+      });
+
+      //监听提交
+    form.on('submit(data_form_add_submit)', function(data) {
+      $.post('/roles', data.field, function(res) {
+        layer.msg(res.msg);
+        res.code == 200 && route.render('#/roles');
+      }, 'json');
+      return false;
+    });
+
+  });
+</script>

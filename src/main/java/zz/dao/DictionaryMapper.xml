@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="zz.dao.DictionaryMapper">
+    <select id="findByExample" parameterType="int" resultType="Dictionary">
+        select * from sys_dictionary order by typename,code
+    </select>
+</mapper>

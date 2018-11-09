@@ -22,6 +22,11 @@ public class User implements Serializable {
     private Date register_time;
     private Integer department_id;
 
+    // 这个方法用来解决
+    public Integer getValue(){
+        return id;
+    }
+
     public Integer getId() {
         return id;
     }

@@ -1,0 +1,161 @@
+<div class="layui-fluid" id="data-form-contianer">
+    <div class="layui-row">
+        <div class="layui-col-xs12">
+            <div class="layui-card">
+                <div class="layui-card-header">修改部门</div>
+                <div class="layui-card-body">
+                    <form class="layui-form" lay-filter="data_form_edit">
+                        <input type="hidden" name="id"/>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">名称</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="menu_name" required  lay-verify="required" placeholder="名称" autocomplete="off" class="layui-input">
+                            </div>
+                            <div class="layui-form-mid layui-word-aux"><i style="color:red"> * </i></div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">URL</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="url" placeholder="资源路径" autocomplete="off" class="layui-input">
+                            </div>
+                            <div class="layui-form-mid layui-word-aux"><i style="color:red"> * </i></div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">类型</label>
+                            <div class="layui-input-inline">
+                                <select id="menu_type_id" name="menu_type" placeholder="menu_type" class="layui-input"></select>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">样式</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="menu_class" placeholder="menu_class" autocomplete="off" class="layui-input" value="menu_dir"/>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">上级资源</label>
+                            <div class="layui-input-inline">
+                                <select name="parent_id" xm-select="resources_select" xm-select-radio=""></select>
+                            </div>
+                            <div class="layui-form-mid layui-word-aux"><i style="color:red"> * </i></div>
+                        </div>
+                        <div class="layui-form-item">
+                            <div class="layui-input-block">
+                                <button class="layui-btn" lay-submit lay-filter="data_form_edit_submit">立即提交</button>
+                                <button type="reset" class="layui-btn layui-btn-danger">重置</button>
+                                <a class="layui-btn layui-btn-primary" id="tolist_btn" href="#/resources">返回列表</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<link rel="stylesheet" type="text/css" href="/static/css/formSelects-v4.css"/>
+<style type="text/css">
+    .layui-form-item .layui-input-inline{width:50%;}
+</style>
+<!-- 脚本 -->
+<script>
+  layui.use(['form','laydate','formSelects','route','upload'], function() {
+
+    var form = layui.form,
+      $ = layui.jquery,
+      date = layui.laydate,
+      route = layui.route,
+      upload = layui.upload,
+      formSelects = layui.formSelects;
+
+    // 获取路由参数
+    var params = route.params();
+
+    // 加载数据
+    $.get("/resources/"+params.id,function(res){
+        if(res.code == 200){
+
+            var resData = res.data;
+            renderForm(resData);
+
+            /*下面的代码用来使用服务器数据填充表单*/
+
+            // 使用服务器信息初始化表单数据
+            form.val("data_form_edit", {
+                "id": resData.id
+                ,"menu_name": resData.menu_name
+                ,"parent_id": resData.parent_id
+                ,"menu_class": resData.menu_class
+                ,"url": resData.url
+            });
+
+            formSelects.data('resources_select', 'server', {
+                url: '/resources/'+resData.id+"/resources",
+                header:{'data':'tree'},
+                beforeSuccess: function(id, url, searchVal, result){
+                    return result.data;
+                }
+            });
+
+            // 异步加载菜单类型数据
+            $.get("/dictionaries",{typename:"menu_type"},function(rest){
+                if(rest.code==200){
+                    $.each(rest.data,function(key,value){
+                        if(key==resData.menu_type)
+                            $("#menu_type_id").append("<option value='"+key+"' selected='selected'>"+value+"</option>");
+                        else
+                            $("#menu_type_id").append("<option value='"+key+"'>"+value+"</option>");
+                    });
+                    form.render();
+                }
+            });
+
+            form.render();
+        }else{
+            layer.msg("数据加载失败");
+            history.go(-1);
+        }
+
+    });
+
+    // 刷新表格
+    function renderForm(resData) {
+
+        //监听提交
+        form.on('submit(data_form_edit_submit)', function (data) {
+            $.ajax({url:'/resources', data:data.field, success:function (res) {
+                //console.log(res);
+                layer.msg(res.msg);
+                if(res.code == 200)
+                    location.href='/#/resources';
+            }, dataType:'json',type:"put"});
+            return false;
+        });
+
+    }
+
+  });
+
+</script>
+<!-- 样式 -->
+<style scoped>
+    /**treeselect*/
+    #data-form-contianer .layui-form-select .layui-tree {
+        display: none;
+        position: absolute;
+        left: 0;
+        top: 42px;
+        padding: 5px 0;
+        z-index: 999;
+        min-width: 100%;
+        border: 1px solid #d2d2d2;
+        max-height: 300px;
+        overflow-y: auto;
+        background-color: #fff;
+        border-radius: 2px;
+        box-shadow: 0 2px 4px rgba(0,0,0,.12);
+        box-sizing: border-box;
+    }
+    #data-form-contianer .layui-form-selected .layui-tree {
+        display: block;
+    }
+</style>

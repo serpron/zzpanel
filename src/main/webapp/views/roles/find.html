@@ -1,0 +1,62 @@
+<div class="layui-fluid" id="data-form-contianer">
+    <div class="layui-row">
+        <div class="layui-col-xs12">
+            <form class="layui-form" lay-filter="data_form_find" id="data_form_find">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">名称</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="name"  placeholder="名称" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">名称</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="description"  placeholder="描述" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- 脚本 -->
+<script>
+    layui.use(['form','laydate','treeselect','route'], function() {
+
+        var form = layui.form,
+            $ = layui.jquery,
+            date = layui.laydate,
+            route = layui.route;
+    });
+</script>
+<!-- 样式 -->
+<style scoped>
+
+    #data-form-contianer{
+        margin-top:20px;
+        margin-right:50px;
+    }
+    #data-form-contianer .layui-layer-btn{
+        border-top:1px solid #ccc;
+        background:#eee;
+    }
+    /**treeselect*/
+    #data-form-contianer .layui-form-select .layui-tree {
+        display: none;
+        position: absolute;
+        left: 0;
+        top: 42px;
+        padding: 5px 0;
+        z-index: 999;
+        min-width: 100%;
+        border: 1px solid #d2d2d2;
+        max-height: 300px;
+        overflow-y: auto;
+        background-color: #fff;
+        border-radius: 2px;
+        box-shadow: 0 2px 4px rgba(0,0,0,.12);
+        box-sizing: border-box;
+    }
+    #data-form-contianer .layui-form-selected .layui-tree {
+        display: block;
+    }
+</style>
