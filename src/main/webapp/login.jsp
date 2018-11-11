@@ -10,7 +10,6 @@
   <link rel="stylesheet" href="/static/css/layui.css">
   <link rel="stylesheet" href="/static/css/login.css">
 </head>
-
 <body>
   <div class="kit-login">
     <div class="kit-login-bg"></div>
@@ -18,12 +17,12 @@
       <h2 class="kit-login-slogan">欢迎使用 <br> ZZPANEL</h2>
       <div class="kit-login-form">
         <h4 class="kit-login-title">登录</h4>
-        <form class="layui-form" method="post" action="/sessions">
+        <form class="layui-form" method="post">
           <div class="kit-login-row">
             <div class="kit-login-col">
               <i class="layui-icon">&#xe612;</i>
               <span class="kit-login-input">
-                <input type="text" name="account" lay-verify="required" placeholder="用户名/邮箱/手机号" />
+                <input type="text" name="account" lay-verify="required" placeholder="用户账户" autocomplete="off" />
               </span>
             </div>
             <div class="kit-login-col"></div>

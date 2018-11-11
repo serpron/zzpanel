@@ -34,6 +34,7 @@
             ,cols: [[ //表头
                 {field: 'id', title: 'ID', width:80, sort: true, fixed: 'left'}
                 ,{field: 'name', title: '名称', width:200, sort: true}
+                ,{field: 'title', title: '中文名称', width:200, sort: true}
                 ,{field: 'description', title: '描述', sort:true}
                 ,{field: 'operation', title:'操作', width:120,toolbar:'#data_bar',align:'center'}
             ]]
@@ -62,11 +63,11 @@
                     });
                 });
             } else if (layEvent === 'edit') { //编辑
-               route.render('#/'+modelname+'/id?id=' + data.id);
+               route.render('#/'+modelname+'/edit?id=' + data.id);
             }
         });
         $("#search-btn").click(function(){
-            $.get(route.getRoute('#/'+modelname+'/search').component,function(data){
+            $.get(route.getRoute('#/'+modelname+'/find').component,function(data){
               layui.layer.open({
                   title:"查找",
                   type:1,

@@ -8,6 +8,7 @@ import zz.entity.User;
 import zz.util.Page;
 
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.Assert.*;
 
@@ -44,6 +45,14 @@ public class UserServiceImplTest {
     }
 
     @Test
+    public void changePass(){
+        String pass = "123";
+        List<User> list = this.userService.find(null);
+        for(User user : list) {
+            this.userService.changePass(user.getAccount(), pass);
+        }
+    }
+    @Test
     public void login(){
         String account = "admin";
         String pass = "123";
@@ -56,5 +65,19 @@ public class UserServiceImplTest {
         Page<User> page = this.userService.find(null,1,10);
         Assert.assertNotNull(page);
         Assert.assertNotNull(page.getList());
+    }
+
+    @Test
+    public void findAllRoles(){
+        Set<String> roles = userService.findAllRoles("linghuchong");
+        Assert.assertNotNull(roles);
+        Assert.assertEquals(2,roles.size());
+    }
+
+    @Test
+    public void findAllPermissions(){
+        Set<String> roles = userService.findAllPermissions("linghuchong");
+        Assert.assertNotNull(roles);
+        Assert.assertEquals(3,roles.size());
     }
 }

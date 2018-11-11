@@ -12,6 +12,7 @@ import zz.util.WebResult;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Transactional(readOnly = true)
 @Service("departmentService")
@@ -19,10 +20,10 @@ public class DepartmentServiceImpl implements DepartmentService{
     @Autowired
     private DepartmentMapper departmentMapper;
     @Autowired
-    private TreeNodeService treeNodeService;
+    private TreeMapService treeNodeService;
 
     @Override
-    public List<TreeNode> findDepartmentsWithTree(Integer id) {
+    public List<Map<String,Object>> findDepartmentsWithTree(Integer id) {
         List<Integer> selectIds = new ArrayList<>();
         if(id!=null) {
             Department department = this.departmentMapper.findById(id);
@@ -82,11 +83,11 @@ public class DepartmentServiceImpl implements DepartmentService{
         this.departmentMapper = departmentMapper;
     }
 
-    public TreeNodeService getTreeNodeService() {
+    public TreeMapService getTreeNodeService() {
         return treeNodeService;
     }
 
-    public void setTreeNodeService(TreeNodeService treeNodeService) {
+    public void setTreeNodeService(TreeMapService treeNodeService) {
         this.treeNodeService = treeNodeService;
     }
 }

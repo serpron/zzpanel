@@ -20,7 +20,7 @@ public class ResourceServiceImpl implements ResourceService{
     @Autowired
     private ResourceMapper resourceMapper;
     @Autowired
-    private TreeNodeService treeNodeService;
+    private TreeMapService treeNodeService;
 
     @Override
     public Page<Resource> find(Resource example, int page, int rows) {
@@ -80,7 +80,7 @@ public class ResourceServiceImpl implements ResourceService{
     }
 
     @Override
-    public List<TreeNode> findResourcesWithTree(Integer id) {
+    public List<Map<String,Object>> findResourcesWithTree(Integer id) {
         List<Integer> selectedIdList = new ArrayList<>();
         if(id!=null){
             Resource resource = this.resourceMapper.findById(id);
@@ -97,11 +97,11 @@ public class ResourceServiceImpl implements ResourceService{
         this.resourceMapper = resourceMapper;
     }
 
-    public TreeNodeService getTreeNodeService() {
+    public TreeMapService getTreeNodeService() {
         return treeNodeService;
     }
 
-    public void setTreeNodeService(TreeNodeService treeNodeService) {
+    public void setTreeNodeService(TreeMapService treeNodeService) {
         this.treeNodeService = treeNodeService;
     }
 }

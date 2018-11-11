@@ -1,5 +1,7 @@
 package zz.web;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +14,7 @@ import zz.util.WebResult;
 import zz.util.WebResultCodeType;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class DepartmentController {
@@ -23,6 +26,7 @@ public class DepartmentController {
      * @param rows
      * @return
      */
+    @RequiresPermissions("departments:list")
     @ResponseBody
     @RequestMapping(value = "/departments",method = RequestMethod.GET,produces = {"application/json;charset=UTF-8"})
     public Object find(Department example, @RequestParam(defaultValue = "1") int page, @RequestParam(value = "limit",defaultValue = "10") int rows){
@@ -30,17 +34,19 @@ public class DepartmentController {
         return WebResult.fromPage(pageBean);
     }
 
+    @RequiresPermissions("departments:list")
     @RequestMapping(value="/departments",headers = "data=tree",method = RequestMethod.GET,produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public Object findAllDepartmentsWithTree(){
         return new WebResult<>(this.departmentService.findDepartmentsWithTree(null));
     }
 
+    @RequiresPermissions("departments:list")
     @RequestMapping(value="/departments/{id}/departments",headers="data=tree",
             method = RequestMethod.GET,produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public Object findAllDepartmentsWithTree(@PathVariable("id") Integer id){
-        List<TreeNode> list = this.departmentService.findDepartmentsWithTree(id);
+        List<Map<String,Object>> list = this.departmentService.findDepartmentsWithTree(id);
         return new WebResult<>(list);
     }
 
@@ -49,6 +55,7 @@ public class DepartmentController {
      * @param entity
      * @return
      */
+    @RequiresPermissions("departments:add")
     @ResponseBody
     @RequestMapping(value="/departments",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
     public WebResult<Department> add(Department entity){
@@ -65,6 +72,7 @@ public class DepartmentController {
      * @param entity
      * @return
      */
+    @RequiresPermissions("departments:update")
     @ResponseBody
     @RequestMapping(value="/departments",method = RequestMethod.PUT,produces = {"application/json;charset=UTF-8"})
     public WebResult<Department> update(Department entity){
@@ -76,13 +84,14 @@ public class DepartmentController {
         }
     }
 
+    @RequiresPermissions("departments:list")
     @RequestMapping(value = "/departments/{id}",method = RequestMethod.GET,produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public WebResult<Department> findById(@PathVariable("id") Integer id){
         Department result = this.departmentService.findById(id);
         return new WebResult<>(result);
     }
-
+    @RequiresPermissions("departments:delete")
     @RequestMapping(value = "/departments/{id}",method = RequestMethod.DELETE,produces =  {"application/json;charset=UTF-8"})
     @ResponseBody
     public WebResult<String> delete(@PathVariable("id") Integer id){

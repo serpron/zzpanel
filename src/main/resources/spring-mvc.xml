@@ -74,4 +74,16 @@
     <mvc:resources mapping="/static/lay/modules/**" location="/static/lay/modules/"/>
     <mvc:resources mapping="/static/**" location="/static/"/>
     <mvc:resources mapping="/views/**" location="/views/"/>
+
+    <!--开启shiro注解扫描，必须在这里，否则开启不了-->
+
+    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
+          depends-on="lifecycleBeanPostProcessor">
+        <property name="proxyTargetClass" value="true" />
+    </bean>
+
+    <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+        <property name="securityManager" ref="securityManager"/>
+    </bean>
+
 </beans>

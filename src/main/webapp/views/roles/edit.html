@@ -13,6 +13,12 @@
                    </div>
                </div>
                <div class="layui-form-item">
+                   <label class="layui-form-label">中文名称</label>
+                   <div class="layui-input-block">
+                       <input type="text" name="title" required  lay-verify="required" placeholder="中文名称" autocomplete="off" class="layui-input">
+                   </div>
+               </div>
+               <div class="layui-form-item">
                    <label class="layui-form-label">用户</label>
                    <div class="layui-input-block">
                        <select name="users" xm-select="users_select"></select>
@@ -70,6 +76,7 @@
             form.val("data_form_edit", {
                 "id": resData.id
                 ,"name": resData.name
+                ,"title": resData.title
                 ,"description": resData.description
             });
 

@@ -21,6 +21,7 @@ public class User implements Serializable {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date register_time;
     private Integer department_id;
+    private Integer state;
 
     // 这个方法用来解决
     public Integer getValue(){
@@ -121,5 +122,13 @@ public class User implements Serializable {
 
     public void setDepartment_id(Integer department_id) {
         this.department_id = department_id;
+    }
+
+    public Integer getState() {
+        return state;
+    }
+
+    public void setState(Integer state) {
+        this.state = state;
     }
 }

@@ -15,5 +15,5 @@ public interface ResourceService {
     Resource update(Resource resource);
     void delete(Integer id);
     Resource findById(Integer id);
-    List<TreeNode> findResourcesWithTree(Integer id);
+    List<Map<String,Object>> findResourcesWithTree(Integer id);
 }

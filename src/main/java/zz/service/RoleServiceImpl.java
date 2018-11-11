@@ -25,7 +25,7 @@ public class RoleServiceImpl implements RoleService{
     @Autowired
     private ResourceMapper resourceMapper;
     @Autowired
-    private TreeNodeService treeNodeService;
+    private TreeMapService treeNodeService;
 
     @Override
     public Page<Role> find(Role example, int page, int rows) {
@@ -154,7 +154,7 @@ public class RoleServiceImpl implements RoleService{
     }
 
     @Override
-    public List<TreeNode> findRoleResources(int roleid) {
+    public List<Map<String,Object>> findRoleResources(int roleid) {
         List<Integer> selectResourcesList = roleResourceMapper.findByRoleId(roleid);
         return this.treeNodeService.generateResourcesTree(selectResourcesList);
     }
@@ -199,11 +199,11 @@ public class RoleServiceImpl implements RoleService{
         this.resourceMapper = resourceMapper;
     }
 
-    public TreeNodeService getTreeNodeService() {
+    public TreeMapService getTreeNodeService() {
         return treeNodeService;
     }
 
-    public void setTreeNodeService(TreeNodeService treeNodeService) {
+    public void setTreeNodeService(TreeMapService treeNodeService) {
         this.treeNodeService = treeNodeService;
     }
 }

@@ -5,6 +5,7 @@ import zz.entity.TreeNode;
 import zz.util.Page;
 
 import java.util.List;
+import java.util.Map;
 
 public interface DepartmentService {
     Page<Department> find(Department example, int page, int rows);
@@ -12,5 +13,5 @@ public interface DepartmentService {
     Department update(Department department);
     void delete(Integer id);
     Department findById(Integer id);
-    List<TreeNode> findDepartmentsWithTree(Integer id);
+    List<Map<String,Object>> findDepartmentsWithTree(Integer id);
 }

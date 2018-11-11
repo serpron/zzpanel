@@ -31,4 +31,5 @@
     <!--导入其它配置文件-->
     <import resource="spring-mybatis.xml"/>
     <import resource="spring-aop.xml"/>
+    <import resource="spring-shiro.xml"/>
 </beans>

@@ -10,6 +10,7 @@ public class Role implements Serializable {
     private Date create_time;
     private String description;
     private String name;
+    private String title;
     private Integer[] users ;
     private Integer[] resources;
 
@@ -59,5 +60,13 @@ public class Role implements Serializable {
 
     public void setResources(Integer[] resources) {
         this.resources = resources;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

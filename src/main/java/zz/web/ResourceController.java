@@ -1,10 +1,13 @@
 package zz.web;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import zz.entity.Resource;
 import zz.service.ResourceService;
+import zz.service.TreeMapService;
 import zz.service.TreeNodeService;
 import zz.util.Page;
 import zz.util.WebResult;
@@ -15,7 +18,7 @@ public class ResourceController {
     @Autowired
     private ResourceService resourceService;
     @Autowired
-    private TreeNodeService treeNodeService;
+    private TreeMapService treeNodeService;
 
     /**
      * 查找所有资源
@@ -23,6 +26,7 @@ public class ResourceController {
      * @param rows
      * @return
      */
+    @RequiresPermissions("resources:list")
     @ResponseBody
     @RequestMapping(value = "/resources",method = RequestMethod.GET,produces = {"application/json;charset=UTF-8"})
     public Object find(Resource example, @RequestParam(defaultValue = "-1") int page, @RequestParam(value = "limit",defaultValue = "10") int rows){
@@ -33,13 +37,13 @@ public class ResourceController {
             return WebResult.fromPage(pageBean);
         }
     }
-
+    @RequiresPermissions("resources:list")
     @RequestMapping(value="/resources",headers = "data=tree",method = RequestMethod.GET,produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public Object findAllResourcesWithTree(){
         return new WebResult<>(this.resourceService.findResourcesWithTree(null));
     }
-
+    @RequiresPermissions("resources:list")
     @RequestMapping(value="/resources/{id}/resources",headers = "data=tree",method = RequestMethod.GET,produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public Object findAllResourcesWithTree(@PathVariable("id") Integer id){
@@ -51,6 +55,7 @@ public class ResourceController {
      * @param entity
      * @return
      */
+    @RequiresPermissions("resources:add")
     @ResponseBody
     @RequestMapping(value="/resources",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
     public WebResult<Resource> add(Resource entity){
@@ -67,6 +72,7 @@ public class ResourceController {
      * @param entity
      * @return
      */
+    @RequiresPermissions("resources:update")
     @ResponseBody
     @RequestMapping(value="/resources",method = RequestMethod.PUT,produces = {"application/json;charset=UTF-8"})
     public WebResult<Resource> update(Resource entity){
@@ -78,6 +84,7 @@ public class ResourceController {
         }
     }
 
+    @RequiresPermissions("resources:list")
     @RequestMapping(value = "/resources/{id}",method = RequestMethod.GET,produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public WebResult<Resource> findById(@PathVariable("id") Integer id){
@@ -85,6 +92,7 @@ public class ResourceController {
         return new WebResult<>(result);
     }
 
+    @RequiresPermissions("resources:delete")
     @RequestMapping(value = "/resources/{id}",method = RequestMethod.DELETE,produces =  {"application/json;charset=UTF-8"})
     @ResponseBody
     public WebResult<String> delete(@PathVariable("id") Integer id){
@@ -100,11 +108,11 @@ public class ResourceController {
         this.resourceService = resourceService;
     }
 
-    public TreeNodeService getTreeNodeService() {
+    public TreeMapService getTreeNodeService() {
         return treeNodeService;
     }
 
-    public void setTreeNodeService(TreeNodeService treeNodeService) {
+    public void setTreeNodeService(TreeMapService treeNodeService) {
         this.treeNodeService = treeNodeService;
     }
 }

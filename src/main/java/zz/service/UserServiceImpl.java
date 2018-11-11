@@ -9,17 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import sun.reflect.generics.tree.Tree;
 import zz.dao.UserMapper;
-import zz.entity.TreeNode;
+import zz.entity.FrontRoute;
 import zz.entity.User;
 import zz.util.Page;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Transactional(readOnly = true)
 @Service("userService")
@@ -28,15 +24,18 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserMapper userMapper;
     @Autowired
-    private TreeNodeService treeNodeService;
+    private TreeMapService treeNodeService;
 
     static final SimpleDateFormat DF = new SimpleDateFormat("yyyyMMddHHmmssSSS");
 
     @Override
+    public User findByAccount(String account) {
+        User user = this.userMapper.findByAccount(account);
+        return user;
+    }
+
+    @Override
     public List<User> find(User example) {
-        List<String> filters = new ArrayList<>();
-        filters.add("name");
-        filters.add("id");
         return this.userMapper.findByExample(example);
     }
 
@@ -68,11 +67,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED,readOnly = false)
     public void changePass(String account, String pass) {
         User user = new User();
         user.setAccount(account);
-        String salt = generateSalt(pass);  // 根据明文密码产生盐
-        pass = generateHex(user.getPass(),salt); // 结合明文密码与盐产生密文密码
+        String salt = generateSalt(pass);  // 根据明文密码产生公盐
+        pass = generateHex(pass,generateSaltString(account,salt)); // 结合明文密码与盐产生密文密码
         user.setPass(pass);
         user.setSalt(salt);
         this.userMapper.update(user);
@@ -82,7 +82,7 @@ public class UserServiceImpl implements UserService {
     @Transactional(propagation = Propagation.REQUIRED,readOnly = false)
     public User add(User user) {
         String salt = generateSalt(user.getPass());  // 根据明文密码产生盐
-        String pass = generateHex(user.getPass(),salt); // 结合明文密码与盐产生密文密码
+        String pass = generateHex(user.getPass(),generateSaltString(user.getAccount(),salt)); // 结合明文密码与私盐产生密文密码
         user.setPass(pass);
         user.setSalt(salt);
         user.setRegister_time(new Date());
@@ -95,8 +95,9 @@ public class UserServiceImpl implements UserService {
     @Transactional(propagation = Propagation.REQUIRED,readOnly = false)
     public User update(User user) {
         // 为用户重新生成盐和密码
-        String salt = generateSalt(user.getPass());  // 根据明文密码产生盐
-        String pass = generateHex(user.getPass(),salt); // 结合明文密码与盐产生密文密码
+        String salt = generateSalt(user.getPass());  // 根据明文密码产生公盐
+        String pass = generateHex(user.getPass(),
+                ByteSource.Util.bytes(generateSaltString(user.getAccount(),salt)).toHex()); // 结合明文密码与私盐产生密文密码
         user.setPass(pass);
         user.setSalt(salt);
         this.userMapper.update(user);
@@ -115,7 +116,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<TreeNode> findDepartmentsWithTree(Integer id) {
+    public List<Map<String,Object>> findDepartmentsWithTree(Integer id) {
         List<Integer> selectedIdList = new ArrayList<>();
         if(id!=null) {
             User user = this.userMapper.findById(id);
@@ -125,25 +126,49 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Set<String> findAllRoles(String account) {
+        return userMapper.findAllRoles(account);
+    }
+
+    @Override
+    public Set<String> findAllPermissions(String account) {
+        return userMapper.findAllPermissions(account);
+    }
+
+    @Override
+    public boolean checkPass(String pass, String salt, String dbPass) {
+        String securityPass = generateHex(pass,salt);
+        return securityPass.equals(dbPass);
+    }
+
+    @Override
+    public List<Map<String,Object>> findMenuTree(String account) {
+        return this.treeNodeService.findUserResources(account);
+    }
+
+    @Override
+    public List<FrontRoute> findAllFrontRoutes() {
+        return this.treeNodeService.findAllFrontRoutes();
+    }
+
+    @Override
     public User findById(Integer id) {
         return this.userMapper.findById(id);
     }
 
     /**
-     * 根据字符串和盐生成加密字符串
-     * @param pass
+     * 根据字符串和私盐生成加密字符串
      * @param salt
      * @return
      */
     public String generateHex(String pass,String salt){
-        pass = getSaltString(pass,salt);
         DefaultHashService hashService = new DefaultHashService();
         hashService.setHashAlgorithmName("SHA-512");
         hashService.setPrivateSalt(new SimpleByteSource(salt));
         hashService.setHashIterations(2);
         HashRequest request = new HashRequest.Builder()
-                .setAlgorithmName("MD5")
-                .setSource(ByteSource.Util.bytes(getSaltString(pass,salt)))
+                .setAlgorithmName("SHA-512")
+                .setSource(ByteSource.Util.bytes(pass))
                 .setSalt(ByteSource.Util.bytes(salt))
                 .setIterations(2)
                 .build();
@@ -161,9 +186,9 @@ public class UserServiceImpl implements UserService {
         return randomNumberGenerator.nextBytes().toHex();
     }
 
-    // 密码与盐进行连接组成新的密码源
-    public String getSaltString(String pass,String salt){
-        return salt + "-" + pass +"-" + salt;
+    // 用户名与盐进行连接组成私盐
+    public String generateSaltString(String username,String salt){
+        return username + salt;
     }
 
     public UserMapper getUserMapper() {
@@ -174,11 +199,11 @@ public class UserServiceImpl implements UserService {
         this.userMapper = userMapper;
     }
 
-    public TreeNodeService getTreeNodeService() {
+    public TreeMapService getTreeNodeService() {
         return treeNodeService;
     }
 
-    public void setTreeNodeService(TreeNodeService treeNodeService) {
+    public void setTreeNodeService(TreeMapService treeNodeService) {
         this.treeNodeService = treeNodeService;
     }
 }

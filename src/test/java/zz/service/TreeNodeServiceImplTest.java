@@ -7,24 +7,25 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import zz.entity.TreeNode;
 
 import java.util.List;
+import java.util.Map;
 
 public class TreeNodeServiceImplTest {
 
-    private TreeNodeService treeNodeService;
+    private TreeMapService treeNodeService;
 
     @Before
     public void init(){
-        treeNodeService = (TreeNodeService) new ClassPathXmlApplicationContext("spring-config.xml").getBean("treeNodeService");
+        treeNodeService = (TreeMapService) new ClassPathXmlApplicationContext("spring-config.xml").getBean("treeNodeService");
     }
     @Test
     public void generateDepartmentTree() {
-        List<TreeNode> list = treeNodeService.generateDepartmentTree(null);
+        List<Map<String,Object>> list = treeNodeService.generateDepartmentTree(null);
         Assert.assertNotNull(list);
     }
 
     @Test
     public void generateResourcesTree(){
-        List<TreeNode> list = treeNodeService.generateResourcesTree(null);
+        List<Map<String,Object>> list = treeNodeService.generateResourcesTree(null);
         Assert.assertNotNull(list);
     }
 }

@@ -1,5 +1,7 @@
 package zz.web;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +28,7 @@ public class RoleController {
      * @param rows
      * @return
      */
+    @RequiresPermissions("roles:list")
     @ResponseBody
     @RequestMapping(value = "/roles",method = RequestMethod.GET,produces = {"application/json;charset=UTF-8"})
     public Object find(Role example, @RequestParam(defaultValue = "1") int page, @RequestParam(value = "limit",defaultValue = "10") int rows){
@@ -38,6 +41,7 @@ public class RoleController {
      * @param id
      * @return
      */
+    @RequiresPermissions("roles:list")
     @ResponseBody
     @RequestMapping(value = "/roles/{id}/users",method = RequestMethod.GET,produces = {"application/json;charset=UTF-8"})
     public Object findRoleUsers(@PathVariable("id") int id){
@@ -51,10 +55,11 @@ public class RoleController {
      * @param id
      * @return
      */
+    @RequiresPermissions("roles:list")
     @ResponseBody
-    @RequestMapping(value = "/roles/{id}/resources",headers={"data=tree"},method = RequestMethod.GET,produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "/roles/{id}/resources",method = RequestMethod.GET,produces = {"application/json;charset=UTF-8"})
     public Object findRoleResources(@PathVariable("id") int id){
-        List<TreeNode> list = this.roleService.findRoleResources(id);
+        List<Map<String,Object>> list = this.roleService.findRoleResources(id);
         WebResult<List<Map<String,Object>>> result = new WebResult(list);
         return result;
     }
@@ -63,6 +68,7 @@ public class RoleController {
      * @param entity
      * @return
      */
+    @RequiresPermissions("roles:add")
     @ResponseBody
     @RequestMapping(value="/roles",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
     public WebResult<Role> add(Role entity){
@@ -79,6 +85,7 @@ public class RoleController {
      * @param entity
      * @return
      */
+    @RequiresPermissions("roles:update")
     @ResponseBody
     @RequestMapping(value="/roles",method = RequestMethod.PUT,produces = {"application/json;charset=UTF-8"})
     public WebResult<Role> update(Role entity){
@@ -90,6 +97,7 @@ public class RoleController {
         }
     }
 
+    @RequiresPermissions("roles:list")
     @RequestMapping(value = "/roles/{id}",method = RequestMethod.GET,produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public WebResult<Role> findById(@PathVariable("id") Integer id){
@@ -97,6 +105,7 @@ public class RoleController {
         return new WebResult<>(result);
     }
 
+    @RequiresPermissions("roles:delete")
     @RequestMapping(value = "/roles/{id}",method = RequestMethod.DELETE,produces =  {"application/json;charset=UTF-8"})
     @ResponseBody
     public WebResult<String> delete(@PathVariable("id") Integer id){

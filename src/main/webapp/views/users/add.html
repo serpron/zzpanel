@@ -162,8 +162,12 @@
     form.on('submit(data_form_add_submit)', function(data) {
       $.post('/users', data.field, function(res) {
         console.log(res);
-        layer.msg(res.msg);
-        res.code == 200 && route.render('#/users');
+        if(res.code == 200){
+            layer.msg(res.msg);
+            route.render('#/users');
+        }else{
+            layer.alert("添加失败:"+res.msg,{icon:5});
+        }
       }, 'json');
       return false;
     });

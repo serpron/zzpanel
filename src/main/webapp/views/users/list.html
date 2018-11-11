@@ -68,11 +68,11 @@
                     });
                 });
             } else if (layEvent === 'edit') { //编辑
-               route.render('#/users/id?id=' + data.id);
+               route.render('#/users/edit?id=' + data.id);
             }
         });
         $("#search-btn").click(function(){
-            $.get(route.getRoute('#/users/search').component,function(data){
+            $.get(route.getRoute('#/users/find').component,function(data){
               layui.layer.open({
                   title:"查找用户",
                   type:1,

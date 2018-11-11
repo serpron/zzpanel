@@ -23,7 +23,7 @@ public class RoleServiceImplTest {
     }
     @Test
     public void findRoleResources() {
-        List<TreeNode> list = roleService.findRoleResources(31);
+        List<Map<String,Object>> list = roleService.findRoleResources(31);
         Assert.assertNotNull(list);
     }
 }

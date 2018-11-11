@@ -15,5 +15,5 @@ public interface RoleService {
     void delete(Integer id);
     Role findById(Integer id);
     List<Map<String,Object>> findRoleUsers(int roleid);
-    List<TreeNode> findRoleResources(int roleid);
+    List<Map<String,Object>> findRoleResources(int roleid);
 }

@@ -19,6 +19,7 @@ public class Resource implements Serializable {
     private Date create_time;
     private String permissions;
     private String parent_ids;
+    private String icon;
 
     public Integer getValue(){return this.id;}
 
@@ -108,6 +109,14 @@ public class Resource implements Serializable {
 
     public String getParent_ids() {
         return parent_ids;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
 
     public void setParent_ids(String parent_ids) {

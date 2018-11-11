@@ -14,6 +14,9 @@
                 <if test="example.name!=null and example.name.trim().length()>0">
                     and name like concat('%',#{example.name},'%')
                 </if>
+                <if test="example.title!=null and example.title.trim().length()>0">
+                    and title like concat('%',#{example.title},'%')
+                </if>
                 <if test="example.description!=null and example.description.trim().length()>0">
                     and description like concat('%',#{example.description},'%')
                 </if>
@@ -29,6 +32,9 @@
                 </if>
                 <if test="example.name!=null and example.name.trim().length()>0">
                     and name like concat('%',#{example.name},'%')
+                </if>
+                <if test="example.title!=null and example.title.trim().length()>0">
+                    and title like concat('%',#{example.title},'%')
                 </if>
                 <if test="example.description!=null and example.description.trim().length()>0">
                     and description like concat('%',#{example.description},'%')
@@ -47,6 +53,9 @@
                 <if test="example.name!=null and example.name.trim().length()>0">
                     and name like concat('%',#{example.name},'%')
                 </if>
+                <if test="example.title!=null and example.title.trim().length()>0">
+                    and title like concat('%',#{example.title},'%')
+                </if>
                 <if test="example.description!=null and example.description.trim().length()>0">
                     and description like concat('%',#{example.description},'%')
                 </if>
@@ -62,13 +71,14 @@
         <set>
           <if test="id!=null">name=#{id},</if>
           <if test="name!=null">name=#{name},</if>
+          <if test="title!=null">title=#{title},</if>
           <if test="create_time!=null">create_time=#{create_time},</if>
           <if test="description!=null">description=#{description},</if>
         </set>
         where id = #{id}
     </update>
     <insert id="add" parameterType="Role" useGeneratedKeys="true" keyProperty="id">
-      insert into sys_role (id,name,description,create_time) values (#{id},#{name},#{description},#{create_time})
+      insert into sys_role (id,name,title,description,create_time) values (#{id},#{name},#{title},#{description},#{create_time})
     </insert>
     <delete id="delete" parameterType="int">
         delete from sys_role where id = #{id}

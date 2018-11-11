@@ -33,10 +33,11 @@
             ,cols: [[ //表头
                 {field: 'id', title: 'ID', width:80, sort: true, fixed: 'left'}
                 ,{field: 'menu_name', title: '名称', width:120, sort: true, fixed: 'left'}
-                ,{field: 'url', title: 'url', width:400, sort: true, fixed: 'left'}
+                ,{field: 'url', title: 'url', width:300, sort: true, fixed: 'left'}
+                ,{field: 'permissions', title: '权限', width:300, sort:true}
                 ,{field: 'menu_typeString', title: '类别', width:100, sort: true, fixed: 'left'}
                 ,{field: 'menu_class', title: '样式', width:100, sort: true}
-                ,{field: 'parent_name', title: '上级', width:300, sort: true}
+                ,{field: 'parent_name', title: '上级', width:100, sort: true}
                 ,{field: 'parent_ids', title: '层次', width:200, sort: true}
                 ,{field: 'operation', title:'操作', toolbar:'#data_bar',align:'center'}
             ]]
@@ -65,11 +66,11 @@
                     });
                 });
             } else if (layEvent === 'edit') { //编辑
-               route.render('#/resources/id?id=' + data.id);
+               route.render('#/resources/edit?id=' + data.id);
             }
         });
         $("#search-btn").click(function(){
-            $.get(route.getRoute('#/resources/search').component,function(data){
+            $.get(route.getRoute('#/resources/find').component,function(data){
               layui.layer.open({
                   title:"查找部门",
                   type:1,

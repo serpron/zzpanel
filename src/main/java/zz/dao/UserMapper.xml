@@ -80,4 +80,20 @@
     <delete id="delete" parameterType="int">
         delete from sys_user where id = #{id}
     </delete>
+    <select id="findAllRoles" parameterType="string" resultType="string">
+        select r.name from sys_role r inner join sys_user_role ur on r.id = ur.role_id
+									  inner join sys_user u on u.id = ur.user_id
+		where u.account = #{account}
+    </select>
+    <select id="findAllPermissions" parameterType="string" resultType="string">
+        select distinct r.permissions from sys_resource r
+                                      inner join sys_role_resource ur on r.id = ur.resource_id
+									  inner join sys_role o on o.id = ur.role_id
+									  inner join sys_user_role uo on uo.role_id = o.id
+									  inner join sys_user u on u.id = uo.user_id
+		where u.account = #{account}
+    </select>
+    <select id="findByAccount" parameterType="string" resultType="User">
+        select * from sys_user where account = #{account}
+    </select>
 </mapper>

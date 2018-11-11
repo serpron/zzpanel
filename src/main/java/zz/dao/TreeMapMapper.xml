@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="zz.dao.TreeMapMapper">
+    <resultMap id="treeMap1" type="map">
+        <id property="id" column="id" javaType="int"/>
+        <result property="name" column="name"/>
+        <result property="parent" column="parent_id" javaType="int"/>
+        <result property="parent_ids" column="parent_ids"/>
+        <result property="value" column="id"/>
+    </resultMap>
+    <resultMap id="treeMap2" type="map" extends="treeMap1">
+        <result property="pid" column="parent_id" javaType="int"/>
+        <result property="title" column="menu_name"/>
+        <result property="path" column="url"/>
+    </resultMap>
+    <select id="findAllDepartments" resultMap="treeMap1">
+        select id,name,parent_id parent,parent_ids from sys_department order by id
+    </select>
+    <select id="findAllResources" resultMap="treeMap1">
+        select id,menu_name name,parent_id parent,parent_ids from sys_resource order by id
+    </select>
+    <select id="findUserResources" parameterType="string" resultMap="treeMap2">
+        select distinct r.id,r.menu_name,ifnull(r.parent_id,0) parent_id,concat('#',r.url) url,r.icon,r.parent_ids,r.menu_class,r.menu_type from sys_resource r
+                inner join sys_role_resource ur on r.id = ur.resource_id
+                inner join sys_role o on o.id = ur.role_id
+                inner join sys_user_role uo on uo.role_id = o.id
+                inner join sys_user u on u.id = uo.user_id
+		where r.menu_type = 1 and u.account = #{account}
+    </select>
+    <select id="findAllFrontRoutes" resultType="FrontRoute">
+        select * from sys_front_route order by path
+    </select>
+</mapper>
