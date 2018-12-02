@@ -28,6 +28,7 @@ public class UserController {
     @ResponseBody
     @RequestMapping(method = RequestMethod.GET,produces = {"application/json;charset=UTF-8"})
     @RequiresPermissions("users:list")
+    @RequiresRoles("管理员")
     public Object find(User user,@RequestParam(defaultValue = "-1") int page,
                        @RequestParam(value = "limit",defaultValue = "10") int rows){
         if(page!=-1) {
@@ -84,6 +85,10 @@ public class UserController {
         }
     }
 
+    // github测试
+    public void test(){
+
+    }
     /**
      * 修改用户
      * @param user
