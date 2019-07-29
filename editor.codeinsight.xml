@@ -3,4 +3,7 @@
     <option name="ADD_UNAMBIGIOUS_IMPORTS_ON_THE_FLY" value="true" />
     <EXCLUDED_PACKAGE NAME="java.util.Date" />
   </component>
+  <component name="DaemonCodeAnalyzerSettings">
+    <option name="SHOW_ADD_IMPORT_HINTS" value="false" />
+  </component>
 </application>
