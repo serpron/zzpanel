@@ -2,6 +2,7 @@
   <component name="FileTypeManager" version="17">
     <extensionMap>
       <mapping pattern="package-info" type="PLAIN_TEXT" />
+      <mapping ext="avsc" type="PLAIN_TEXT" />
     </extensionMap>
   </component>
 </application>
