@@ -78,6 +78,25 @@ public class UserServiceImpl implements UserService {
         this.userMapper.update(user);
     }
 
+    /**
+     * 根据字符串和私盐生成加密字符串
+     * @param salt
+     * @return
+     */
+    public String generateHex(String pass,String salt){
+        DefaultHashService hashService = new DefaultHashService();
+        hashService.setHashAlgorithmName("SHA-512");
+        hashService.setPrivateSalt(new SimpleByteSource(salt));
+        hashService.setHashIterations(2);
+        HashRequest request = new HashRequest.Builder()
+                .setAlgorithmName("SHA-512")
+                .setSource(ByteSource.Util.bytes(pass))
+                .setSalt(ByteSource.Util.bytes(salt))
+                .setIterations(2)
+                .build();
+        return hashService.computeHash(request).toHex();
+    }
+
     @Override
     @Transactional(propagation = Propagation.REQUIRED,readOnly = false)
     public User add(User user) {
@@ -156,24 +175,6 @@ public class UserServiceImpl implements UserService {
         return this.userMapper.findById(id);
     }
 
-    /**
-     * 根据字符串和私盐生成加密字符串
-     * @param salt
-     * @return
-     */
-    public String generateHex(String pass,String salt){
-        DefaultHashService hashService = new DefaultHashService();
-        hashService.setHashAlgorithmName("SHA-512");
-        hashService.setPrivateSalt(new SimpleByteSource(salt));
-        hashService.setHashIterations(2);
-        HashRequest request = new HashRequest.Builder()
-                .setAlgorithmName("SHA-512")
-                .setSource(ByteSource.Util.bytes(pass))
-                .setSalt(ByteSource.Util.bytes(salt))
-                .setIterations(2)
-                .build();
-        return hashService.computeHash(request).toHex();
-    }
 
     /**
      * 使用密码与时间字符串随机生成盐

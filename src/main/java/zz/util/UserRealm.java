@@ -30,7 +30,8 @@ public class UserRealm extends AuthorizingRealm {
         }
         if(user.getState()==2){
             throw new LockedAccountException("账户已锁定");
-        }
+        } // web: account=admin,pass=123,  对pass执行同样的加密规则，生成新的newPass
+          // db:  account=admin,pass=xxx,salt=aaaddsfd
         // 返回包含用户名、加密密码、盐的AuthenticationInfo对象，交给CredentialsMatcher进行密码匹配
         SimpleByteSource salt = SimpleByteSource.bytes(userService.generateSaltString(account,user.getSalt()));
         return new SimpleAuthenticationInfo(user.getAccount(),user.getPass(),salt,getName());
