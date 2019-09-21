@@ -4,6 +4,7 @@
     <option name="FONT_FAMILY" value="Consolas" />
   </component>
   <component name="EditorSettings">
+    <option name="USE_SOFT_WRAPS" value="CONSOLE" />
     <option name="SHOW_PARAMETER_NAME_HINTS" value="false" />
   </component>
 </application>
