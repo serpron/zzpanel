@@ -13,10 +13,7 @@
         <root url="jar://C:/soft/scala/lib/scala-library.jar!/" />
         <root url="jar://C:/soft/scala/lib/scala-reflect.jar!/" />
       </CLASSES>
-      <JAVADOC>
-        <root url="jar://C:/soft/scala/api/jars/scala-library-2.13.1-javadoc.jar!/" />
-        <root url="jar://C:/soft/scala/api/jars/scala-reflect-2.13.1-javadoc.jar!/" />
-      </JAVADOC>
+      <JAVADOC />
       <SOURCES />
     </library>
   </component>
