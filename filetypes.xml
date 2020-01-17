@@ -2,7 +2,9 @@
   <component name="FileTypeManager" version="17">
     <extensionMap>
       <mapping pattern="package-info" type="PLAIN_TEXT" />
+      <mapping pattern="_SUCCESS" type="PLAIN_TEXT" />
       <mapping pattern="data" type="PLAIN_TEXT" />
+      <mapping pattern="part-00000" type="PLAIN_TEXT" />
       <mapping ext="parquet" type="PLAIN_TEXT" />
       <mapping ext="avsc" type="PLAIN_TEXT" />
       <mapping ext="avro" type="PLAIN_TEXT" />
