@@ -5,6 +5,7 @@
       <mapping pattern="_SUCCESS" type="PLAIN_TEXT" />
       <mapping pattern="data" type="PLAIN_TEXT" />
       <mapping pattern="part-00000" type="PLAIN_TEXT" />
+      <mapping pattern="part-r-00000" type="PLAIN_TEXT" />
       <mapping ext="parquet" type="PLAIN_TEXT" />
       <mapping ext="avsc" type="PLAIN_TEXT" />
       <mapping ext="avro" type="PLAIN_TEXT" />
