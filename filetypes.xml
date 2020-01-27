@@ -11,6 +11,7 @@
       <mapping ext="avro" type="PLAIN_TEXT" />
       <mapping ext="op" type="PLAIN_TEXT" />
       <mapping ext="dat" type="PLAIN_TEXT" />
+      <mapping ext="proto" type="PLAIN_TEXT" />
       <mapping ext="php" type="PLAIN_TEXT" />
     </extensionMap>
   </component>
