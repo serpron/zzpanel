@@ -7,6 +7,7 @@
     <option name="UI_GROUP_BY_SCOPE_TYPE" value="false" />
   </component>
   <component name="UISettings">
+    <option name="MAX_LOOKUP_WIDTH2" value="894" />
     <option name="PRESENTATION_MODE_FONT_SIZE" value="16" />
     <option name="SHOW_MAIN_TOOLBAR" value="true" />
   </component>
